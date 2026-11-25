@@ -8,7 +8,7 @@
 ## Project Structure
 ```text
 IDS706-Mini-Assignment-PySpark-Data-Processing/
-├── pyspark_pipeline.py     # All stages of PySpark processing, performance, lazy evaluation, and ML pipeline
+├── pyspark_pipeline.py     # All stages of PySpark processing
 ├── requirements.txt        # Python dependencies
 ├── README.md               # Project overview, setup, and key findings
 ├── .gitignore              # Excludes datasets, generated outputs, and local files
