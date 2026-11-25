@@ -20,7 +20,7 @@ IDS706-Mini-Assignment-PySpark-Data-Processing/
 ## Overall Setup Instructions
 ### 1. Create GitHub repository
 General:
-- Name the repository with `IDS706-Mini-Assignment-Apache-Airflow-Orchestration`.
+- Name the repository with `IDS706-Mini-Assignment-PySpark-Data-Processing`.
 
 Configuration:
 - Add README - Toggle On option.
@@ -45,7 +45,7 @@ python -m pip install --upgrade pip
 
 
 ### 4. Create requirement file for project dependencies (e.g. python packages required)
-- Create a new file called `requirements.text` in the project root and add packages below in the file.
+- Create a new file called `requirements.txt` in the project root and add packages below in the file.
 ```
 pandas
 pyreadstat
@@ -63,11 +63,9 @@ python -m pip install -r requirements.txt
 - [RAND HRS Longitudinal File 2022 (Version 2)](https://hrsdata.isr.umich.edu/data-products/rand-hrs-longitudinal-file-2022), based on the University of Michigan's Health and Retirement Study, follows older Americans' health, cognition, finances, and other characteristics. 
 - The raw dataset is **1.85 GB** in size. It includes 45,165 respondents across 16 survey waves (1992–2022), allowing researchers to examine changes in health and well-being over time.
 - The analysis uses cognitive recall scores, four sleep-quality indicators, age, education level, and survey wave to examine the relationship between sleep quality and cognitive performance.
+<br><br>
 
 ## Pipeline Overview
-
-![Pipeline](images/Pipeline.png)
-
 #### Stage 1 — Data Processing Pipeline
 - Data ingestion: Convert the 1.85GB Stata dataset into Parquet using chunked processing and 134 selected columns.
 - Transformations: Apply filter() and withColumn() to clean data, categorize sleep quality (high, medium, low), and process age and education variables.
@@ -107,34 +105,33 @@ summary.show()
 - Interaction analysis: Include sleep-quality × age interactions to examine whether associations vary with age.
 - Evaluation: Use an 80/20 respondent-level train/test split and compare RMSE, MAE, and R² against a baseline.
 - Output: Save trained models, predictions, coefficients, and evaluation results.
-- The command below can be used to run the overall pipeline
+- Run the stages below sequentially **from the project root**. Use Java 17 and the project virtual environment. Stage 2 screenshot capture requires installed macOS Google Chrome at `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`.
+- These output directories already exist locally. Add `--overwrite` to each command only when intentionally regenerating that revised stage; the commands below are for a first run.
 ```bash
 .venv/bin/python -B pyspark_pipeline.py --stage 1 --output-dir output/research_v2/stage1
 .venv/bin/python -B pyspark_pipeline.py --stage 2 --stage1-dir output/research_v2/stage1 --output-dir output/research_v2/stage2
 .venv/bin/python -B pyspark_pipeline.py --stage 3 --stage1-dir output/research_v2/stage1 --output-dir output/research_v2/stage3
 .venv/bin/python -B pyspark_pipeline.py --stage 4 --stage1-dir output/research_v2/stage1 --output-dir output/research_v2/stage4
 ```
-
+<br><br>
 
 ## Performance Analysis Results
 
-Q1: How did Spark optimize the queries? Where were filters pushed down?
-
+**Q1: How did Spark optimize the queries? Where were filters pushed down?**
 Spark optimized query execution through predicate pushdown, column pruning, and Adaptive Query Execution (AQE). The physical execution plans generated using .explain() show that the grouped-summary query reads only 10 of 19 columns, while the comparison query reads eight per branch. Filters for education, interview status, valid cognitive recall, and sleep quality were pushed toward the Parquet scan, reducing unnecessary data processing. The self-join also pushed sleep-quality restrictions into the relevant branches. These optimizations reduced the amount of data processed before aggregation, although actual Parquet row-group skipping was not independently verified.
 
 ![Query Execution Plan](images/research_v2_01_query_plan.png)
 
-Q2: What performance bottlenecks were identified? How was the pipeline optimized?
-
+**Q2: What performance bottlenecks were identified? How was the pipeline optimized?**
 Spark UI Query Details revealed that aggregations required Exchange shuffle operations, while the comparison query used a BroadcastHashJoin to efficiently join aggregated results. AQE further optimized execution by coalescing shuffle partitions. The largest shuffle write was approximately 3.65 MB, with no memory or disk spill, suggesting that shuffling was the main observable processing overhead rather than a significant memory bottleneck. The pipeline minimized unnecessary processing through early filtering, column pruning, and fewer shuffle partitions. In local benchmarks, two shuffle partitions performed better than four, with median times of 1.112 vs. 1.633 seconds for grouped summaries and 0.584 vs. 0.776 seconds for comparisons.
 
 ![Successful Pipeline Execution](images/research_v2_02_successful_execution.png)
 
 ![Query Details and Optimization](images/research_v2_03_query_details.png)
 
-Q3: Did caching improve performance for repeated actions?
-
+**Q3: Did caching improve performance for repeated actions?**
 Using .cache(), median execution time decreased from 1.633 to 1.034 seconds for grouped summaries and from 0.776 to 0.481 seconds for comparison queries. Although populating the cache required 2.285 seconds, total execution time across five repetitions of both workloads decreased from 11.296 seconds (uncached) to 9.918 seconds (cached, including population), an improvement of approximately 12%. This demonstrates that caching can improve repeated query performance when its initialization cost is outweighed by subsequent savings. Results reflect local execution and exclude the initial Stata-to-Parquet conversion.
+<br><br>
 
 ## Key Findings from Data Analysis
 
@@ -189,5 +186,4 @@ Both regression models performed better than the baseline on held-out respondent
 - Both adjusted models explained approximately **19% of the variation** in cognitive recall scores on the test set.
 
 ### 5. Limitations
-
 The analysis is observational and uses researcher-defined sleep-quality categories. Missing data, repeated observations from the same respondents, and unmeasured factors may influence the results. Therefore, **the findings indicate associations, not causal relationships**, and should not be interpreted as statistically significant effects without further testing.
