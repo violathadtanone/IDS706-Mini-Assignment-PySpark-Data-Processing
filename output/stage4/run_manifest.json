@@ -1,0 +1,117 @@
+{
+  "owner": "research_v2_stage4",
+  "schema_version": "research_v2",
+  "status": "complete",
+  "arguments": {
+    "stage": 4,
+    "input": "randhrs1992_2022v2.dta",
+    "output_dir": "output/stage4",
+    "stage1_dir": "output/stage1",
+    "chunk_size": 5000,
+    "master": "local[2]",
+    "shuffle_partitions": 4,
+    "repeats": 5,
+    "overwrite": false
+  },
+  "started_utc": "2026-11-24T07:52:41.173565+00:00",
+  "versions": {
+    "pyspark": "4.3.0",
+    "pyarrow": "26.0.1",
+    "pyreadstat": "1.3.8",
+    "numpy": "2.5.5"
+  },
+  "jvm_max_heap_bytes": 1073741824,
+  "stage1_manifest_sha256": "fb9c560b04d03b416564cfebf70b73cfd4602f4fc76599ed5513ce8bf226b715",
+  "counts": {
+    "train": {
+      "observations": 114138,
+      "respondents": 27725
+    },
+    "test": {
+      "observations": 28486,
+      "respondents": 6897
+    }
+  },
+  "split": {
+    "seed": 42,
+    "method": "pmod(xxhash64(hhidpn,42),10000)<8000",
+    "overlap": 0
+  },
+  "metrics": {
+    "baseline": {
+      "rmse": 3.449489481011643,
+      "mae": 2.742792780039531,
+      "r2": -2.0588924917630536e-05
+    },
+    "additive": {
+      "rmse": 3.1064060501633546,
+      "mae": 2.45843268878997,
+      "r2": 0.18900955304909617,
+      "out_of_range_predictions": 0
+    },
+    "interaction": {
+      "rmse": 3.1048545021009026,
+      "mae": 2.457655572729483,
+      "r2": 0.1898194770569931,
+      "out_of_range_predictions": 0
+    }
+  },
+  "reference_categories": {
+    "sleep_quality": "high",
+    "raeduc": "5",
+    "wave": "9"
+  },
+  "design_checks": {
+    "additive": {
+      "rank": 18,
+      "columns_including_intercept": 18,
+      "scaled_gram_condition": 9927.579524144518
+    },
+    "interaction": {
+      "rank": 20,
+      "columns_including_intercept": 20,
+      "scaled_gram_condition": 10139.726077696248
+    }
+  },
+  "adjusted_profile": {
+    "education": 3,
+    "wave": 12,
+    "ages": [
+      55,
+      65,
+      75,
+      85
+    ]
+  },
+  "baseline_training_mean": 9.832168077239832,
+  "verification": {
+    "zero_overlap": true,
+    "finite_features_predictions": true,
+    "full_rank": true,
+    "feature_alignment": true,
+    "metrics_reconciled": true,
+    "model_reload_max_errors": {
+      "additive": 0.0,
+      "interaction": 0.0
+    },
+    "interaction_contrasts_checked": true
+  },
+  "elapsed_seconds": 209.54,
+  "path_migration": {
+    "original_output_root": "output/research_v2",
+    "current_output_root": "output",
+    "original_execution_arguments": {
+      "stage": 4,
+      "input": "randhrs1992_2022v2.dta",
+      "output_dir": "output/research_v2/stage4",
+      "stage1_dir": "output/research_v2/stage1",
+      "chunk_size": 5000,
+      "master": "local[2]",
+      "shuffle_partitions": 4,
+      "repeats": 5,
+      "overwrite": false
+    },
+    "historical_execution_evidence_preserved": true,
+    "original_stage1_manifest_sha256": "50a5f5a66c66ca6198d46e01b35bfa0fe38e897c80c5de324cd08a3b08dcedb3"
+  }
+}

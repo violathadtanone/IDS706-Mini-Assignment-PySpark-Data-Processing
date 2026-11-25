@@ -1,0 +1,12 @@
+[Stage 1] Converted 5,000/45,165 respondents
+[Stage 1] Converted 10,000/45,165 respondents
+[Stage 1] Converted 15,000/45,165 respondents
+[Stage 1] Converted 20,000/45,165 respondents
+[Stage 1] Converted 25,000/45,165 respondents
+[Stage 1] Converted 30,000/45,165 respondents
+[Stage 1] Converted 35,000/45,165 respondents
+[Stage 1] Converted 40,000/45,165 respondents
+[Stage 1] Converted 45,000/45,165 respondents
+[Stage 1] Converted 45,165/45,165 respondents
+[Stage 1] Counts: {'respondents': 45165, 'participating_waves': 204883, 'cleaned_waves': 198704, 'primary_observations': 142624, 'primary_respondents': 34622}; sleep descriptives: [{'sleep_quality': 'high', 'observations': 72105, 'respondents': 24623, 'mean_age': 67.21721101171902, 'mean_recall': 10.074336037722766, 'sd_recall': 3.4981322758211224}, {'sleep_quality': 'low', 'observations': 16834, 'respondents': 8876, 'mean_age': 65.59789711298562, 'mean_recall': 9.462159914458834, 'sd_recall': 3.3529606540130774}, {'sleep_quality': 'medium', 'observations': 53685, 'respondents': 22372, 'mean_age': 67.52757753562447, 'mean_recall': 9.63123777591506, 'sd_recall': 3.432968590730278}]
+[Stage 1] Status complete; elapsed 228.07s; output /Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Processing/output/research_v2/stage1

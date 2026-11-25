@@ -1,0 +1,98 @@
+[
+  {
+    "model": "additive",
+    "age": 55.0,
+    "contrast": "medium-high",
+    "difference": -0.16018109669692748
+  },
+  {
+    "model": "additive",
+    "age": 55.0,
+    "contrast": "low-high",
+    "difference": -0.36979543911287927
+  },
+  {
+    "model": "additive",
+    "age": 65.0,
+    "contrast": "medium-high",
+    "difference": -0.16018109669692748
+  },
+  {
+    "model": "additive",
+    "age": 65.0,
+    "contrast": "low-high",
+    "difference": -0.36979543911287927
+  },
+  {
+    "model": "additive",
+    "age": 75.0,
+    "contrast": "medium-high",
+    "difference": -0.16018109669692748
+  },
+  {
+    "model": "additive",
+    "age": 75.0,
+    "contrast": "low-high",
+    "difference": -0.36979543911287927
+  },
+  {
+    "model": "additive",
+    "age": 85.0,
+    "contrast": "medium-high",
+    "difference": -0.16018109669692837
+  },
+  {
+    "model": "additive",
+    "age": 85.0,
+    "contrast": "low-high",
+    "difference": -0.36979543911288015
+  },
+  {
+    "model": "interaction",
+    "age": 55.0,
+    "contrast": "medium-high",
+    "difference": -0.3098718950139254
+  },
+  {
+    "model": "interaction",
+    "age": 55.0,
+    "contrast": "low-high",
+    "difference": -0.6646968712533958
+  },
+  {
+    "model": "interaction",
+    "age": 65.0,
+    "contrast": "medium-high",
+    "difference": -0.18899969570837527
+  },
+  {
+    "model": "interaction",
+    "age": 65.0,
+    "contrast": "low-high",
+    "difference": -0.4002494487114312
+  },
+  {
+    "model": "interaction",
+    "age": 75.0,
+    "contrast": "medium-high",
+    "difference": -0.06812749640282512
+  },
+  {
+    "model": "interaction",
+    "age": 75.0,
+    "contrast": "low-high",
+    "difference": -0.1358020261694648
+  },
+  {
+    "model": "interaction",
+    "age": 85.0,
+    "contrast": "medium-high",
+    "difference": 0.05274470290272504
+  },
+  {
+    "model": "interaction",
+    "age": 85.0,
+    "contrast": "low-high",
+    "difference": 0.12864539637249983
+  }
+]

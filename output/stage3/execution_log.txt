@@ -1,0 +1,76 @@
+[Stage 3] {'operation': 'Parquet schema loading', 'category': 'metadata', 'job_group': 'v2:metadata', 'before': [], 'after': [0], 'new_jobs': [0], 'seconds': 3.9353221339988522}
+[Stage 3] {'operation': 'select()', 'category': 'transformation', 'job_group': 'v2:lazy', 'before': [], 'after': [], 'new_jobs': [], 'seconds': 0.16927945503266528}
+[Stage 3] {'operation': 'filter()', 'category': 'transformation', 'job_group': 'v2:lazy', 'before': [], 'after': [], 'new_jobs': [], 'seconds': 0.5871000569895841}
+[Stage 3] {'operation': 'withColumn()', 'category': 'transformation', 'job_group': 'v2:lazy', 'before': [], 'after': [], 'new_jobs': [], 'seconds': 0.10153163701761514}
+[Stage 3] {'operation': 'groupBy().agg()', 'category': 'transformation', 'job_group': 'v2:lazy', 'before': [], 'after': [], 'new_jobs': [], 'seconds': 0.34548659197753295}
+[Stage 3] before_actions:
+== Physical Plan ==
+AdaptiveSparkPlan (7)
++- HashAggregate (6)
+   +- Exchange (5)
+      +- HashAggregate (4)
+         +- Project (3)
+            +- Filter (2)
+               +- Scan parquet  (1)
+
+
+(1) Scan parquet 
+Output [5]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, recall#7]
+Batched: true
+Location: InMemoryFileIndex [file:/Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Processing/output/research_v2/stage1/analysis]
+PushedFilters: [IsNotNull(wave), GreaterThanOrEqual(wave,12), IsNotNull(raeduc)]
+ReadSchema: struct<wave:int,age_band:string,raeduc:smallint,sleep_quality:string,recall:double>
+
+(2) Filter
+Input [5]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, recall#7]
+Condition : ((isnotnull(wave#1) AND (wave#1 >= 12)) AND isnotnull(raeduc#4))
+
+(3) Project
+Output [5]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, (recall#7 / 20.0) AS recall_fraction#9]
+Input [5]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, recall#7]
+
+(4) HashAggregate
+Input [5]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, recall_fraction#9]
+Keys [4]: [wave#1, age_band#3, raeduc#4, sleep_quality#5]
+Functions [2]: [partial_count(1), partial_avg(recall_fraction#9)]
+Aggregate Attributes [3]: [count#22L, sum#23, count#24L]
+Results [7]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, count#25L, sum#26, count#27L]
+
+(5) Exchange
+Input [7]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, count#25L, sum#26, count#27L]
+Arguments: hashpartitioning(wave#1, age_band#3, raeduc#4, sleep_quality#5, 4), ENSURE_REQUIREMENTS, [plan_id=15]
+
+(6) HashAggregate
+Input [7]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, count#25L, sum#26, count#27L]
+Keys [4]: [wave#1, age_band#3, raeduc#4, sleep_quality#5]
+Functions [2]: [count(1), avg(recall_fraction#9)]
+Aggregate Attributes [2]: [count(1)#20L, avg(recall_fraction#9)#21]
+Results [6]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, count(1)#20L AS observations#10L, avg(recall_fraction#9)#21 AS mean_recall_fraction#11]
+
+(7) AdaptiveSparkPlan
+Output [6]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, observations#10L, mean_recall_fraction#11]
+Arguments: isFinalPlan=false
+
+
+
+[Stage 3] {'operation': 'explain()', 'category': 'transformation', 'job_group': 'v2:lazy', 'before': [], 'after': [], 'new_jobs': [], 'seconds': 1.0786308500100859}
+[Stage 3] {'operation': 'count()', 'category': 'action', 'job_group': 'v2:count', 'before': [], 'after': [1, 2], 'new_jobs': [1, 2], 'seconds': 2.7287214219686575}
+[Stage 3] +----+--------+------+-------------+------------+--------------------+
+|wave|age_band|raeduc|sleep_quality|observations|mean_recall_fraction|
++----+--------+------+-------------+------------+--------------------+
+|12  |50-64   |4     |medium       |811         |0.5358199753390874  |
+|15  |50-64   |4     |medium       |569         |0.5507908611599297  |
+|16  |50-64   |4     |high         |737         |0.547218453188603   |
+|16  |75-84   |4     |low          |55          |0.4236363636363636  |
+|15  |85+     |4     |medium       |81          |0.4037037037037037  |
+|13  |75-84   |3     |medium       |451         |0.42427937915742825 |
+|12  |65-74   |1     |low          |117         |0.3965811965811966  |
+|13  |65-74   |1     |medium       |309         |0.3878640776699028  |
+|12  |75-84   |3     |medium       |489         |0.43875255623721887 |
+|12  |75-84   |4     |high         |365         |0.4556164383561645  |
++----+--------+------+-------------+------------+--------------------+
+only showing top 10 rows
+
+[Stage 3] {'operation': 'show(10, truncate=False)', 'category': 'action', 'job_group': 'v2:show', 'before': [], 'after': [3, 4], 'new_jobs': [3, 4], 'seconds': 1.5157136340276338}
+[Stage 3] {'operation': 'bounded collect for verification', 'category': 'action', 'job_group': 'v2:verify', 'before': [], 'after': [5, 6], 'new_jobs': [5, 6], 'seconds': 0.6662070120219141}
+[Stage 3] Status complete; elapsed 26.29s; output /Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Processing/output/research_v2/stage3

@@ -1,0 +1,48 @@
+== Physical Plan ==
+AdaptiveSparkPlan (7)
++- HashAggregate (6)
+   +- Exchange (5)
+      +- HashAggregate (4)
+         +- Project (3)
+            +- Filter (2)
+               +- Scan parquet  (1)
+
+
+(1) Scan parquet 
+Output [5]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, recall#7]
+Batched: true
+Location: InMemoryFileIndex [file:/Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Processing/output/research_v2/stage1/analysis]
+PushedFilters: [IsNotNull(wave), GreaterThanOrEqual(wave,12), IsNotNull(raeduc)]
+ReadSchema: struct<wave:int,age_band:string,raeduc:smallint,sleep_quality:string,recall:double>
+
+(2) Filter
+Input [5]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, recall#7]
+Condition : ((isnotnull(wave#1) AND (wave#1 >= 12)) AND isnotnull(raeduc#4))
+
+(3) Project
+Output [5]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, (recall#7 / 20.0) AS recall_fraction#9]
+Input [5]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, recall#7]
+
+(4) HashAggregate
+Input [5]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, recall_fraction#9]
+Keys [4]: [wave#1, age_band#3, raeduc#4, sleep_quality#5]
+Functions [2]: [partial_count(1), partial_avg(recall_fraction#9)]
+Aggregate Attributes [3]: [count#22L, sum#23, count#24L]
+Results [7]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, count#25L, sum#26, count#27L]
+
+(5) Exchange
+Input [7]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, count#25L, sum#26, count#27L]
+Arguments: hashpartitioning(wave#1, age_band#3, raeduc#4, sleep_quality#5, 4), ENSURE_REQUIREMENTS, [plan_id=15]
+
+(6) HashAggregate
+Input [7]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, count#25L, sum#26, count#27L]
+Keys [4]: [wave#1, age_band#3, raeduc#4, sleep_quality#5]
+Functions [2]: [count(1), avg(recall_fraction#9)]
+Aggregate Attributes [2]: [count(1)#20L, avg(recall_fraction#9)#21]
+Results [6]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, count(1)#20L AS observations#10L, avg(recall_fraction#9)#21 AS mean_recall_fraction#11]
+
+(7) AdaptiveSparkPlan
+Output [6]: [wave#1, age_band#3, raeduc#4, sleep_quality#5, observations#10L, mean_recall_fraction#11]
+Arguments: isFinalPlan=false
+
+

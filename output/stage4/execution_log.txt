@@ -1,0 +1,5 @@
+[Stage 4] Fitting additive OLS on training respondents only: {'train': {'observations': 114138, 'respondents': 27725}, 'test': {'observations': 28486, 'respondents': 6897}}
+[Stage 4] additive test metrics: {'rmse': 3.1064060501633546, 'mae': 2.45843268878997, 'r2': 0.18900955304909617, 'out_of_range_predictions': 0}
+[Stage 4] Fitting interaction OLS on training respondents only: {'train': {'observations': 114138, 'respondents': 27725}, 'test': {'observations': 28486, 'respondents': 6897}}
+[Stage 4] interaction test metrics: {'rmse': 3.1048545021009026, 'mae': 2.457655572729483, 'r2': 0.1898194770569931, 'out_of_range_predictions': 0}
+[Stage 4] Status complete; elapsed 209.54s; output /Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Processing/output/research_v2/stage4

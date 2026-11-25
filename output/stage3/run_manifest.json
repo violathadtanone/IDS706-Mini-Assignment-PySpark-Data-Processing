@@ -1,0 +1,52 @@
+{
+  "owner": "research_v2_stage3",
+  "schema_version": "research_v2",
+  "status": "complete",
+  "arguments": {
+    "stage": 3,
+    "input": "randhrs1992_2022v2.dta",
+    "output_dir": "output/stage3",
+    "stage1_dir": "output/stage1",
+    "chunk_size": 5000,
+    "master": "local[2]",
+    "shuffle_partitions": 4,
+    "repeats": 5,
+    "overwrite": false
+  },
+  "started_utc": "2026-11-24T07:39:13.516518+00:00",
+  "versions": {
+    "pyspark": "4.3.0",
+    "pyarrow": "26.0.1",
+    "pyreadstat": "1.3.8",
+    "numpy": "2.5.5"
+  },
+  "jvm_max_heap_bytes": 1073741824,
+  "stage1_manifest_sha256": "fb9c560b04d03b416564cfebf70b73cfd4602f4fc76599ed5513ce8bf226b715",
+  "counts": {
+    "qualifying_observations": 74748,
+    "summary_groups": 300
+  },
+  "verification": {
+    "lazy_group_jobs": [],
+    "actions_triggered_jobs": true,
+    "stage1_agreement": true
+  },
+  "elapsed_seconds": 26.29,
+  "path_migration": {
+    "original_output_root": "output/research_v2",
+    "current_output_root": "output",
+    "original_execution_arguments": {
+      "stage": 3,
+      "input": "randhrs1992_2022v2.dta",
+      "output_dir": "output/research_v2/stage3",
+      "stage1_dir": "output/research_v2/stage1",
+      "chunk_size": 5000,
+      "master": "local[2]",
+      "shuffle_partitions": 4,
+      "repeats": 5,
+      "overwrite": false
+    },
+    "historical_execution_evidence_preserved": true,
+    "original_stage1_manifest_sha256": "50a5f5a66c66ca6198d46e01b35bfa0fe38e897c80c5de324cd08a3b08dcedb3"
+  }
+}

@@ -1,0 +1,115 @@
+== Parsed Logical Plan ==
+CTE [grouped]
+:  +- 'SubqueryAlias grouped
+:     +- 'Aggregate ['wave, 'age_band, 'raeduc, 'sleep_quality], ['wave, 'age_band, 'raeduc, 'sleep_quality, 'COUNT(1) AS observations#5560, 'AVG('recall) AS mean_recall#5561]
+:        +- 'UnresolvedRelation [analysis], [], false
++- 'Project ['a.wave, 'a.age_band, 'a.raeduc, 'a.sleep_quality, 'a.observations, 'h.observations AS high_observations#5557, 'a.mean_recall, 'h.mean_recall AS high_mean_recall#5558, ('a.mean_recall - 'h.mean_recall) AS difference_from_high#5559]
+   +- 'Filter (('h.sleep_quality = high) AND 'a.sleep_quality IN (medium,low))
+      +- 'Join Inner, ((('a.wave = 'h.wave) AND ('a.age_band = 'h.age_band)) AND ('a.raeduc = 'h.raeduc))
+         :- 'SubqueryAlias a
+         :  +- 'UnresolvedRelation [grouped], [], false
+         +- 'SubqueryAlias h
+            +- 'UnresolvedRelation [grouped], [], false
+
+== Analyzed Logical Plan ==
+wave: int, age_band: string, raeduc: smallint, sleep_quality: string, observations: bigint, high_observations: bigint, mean_recall: double, high_mean_recall: double, difference_from_high: double
+WithCTE
+:- CTERelationDef 13, false
+:  +- SubqueryAlias grouped
+:     +- Aggregate [wave#2, age_band#18, raeduc#1, sleep_quality#17], [wave#2, age_band#18, raeduc#1, sleep_quality#17, count(1) AS observations#5560L, avg(recall#20) AS mean_recall#5561]
+:        +- SubqueryAlias analysis
+:           +- View (`analysis`, [hhidpn#0L, wave#2, age#3, age_band#18, raeduc#1, sleep_quality#17, sleep_disturbance#16, recall#20])
+:              +- Project [hhidpn#0L, wave#2, age#3, age_band#18, raeduc#1, sleep_quality#17, sleep_disturbance#16, cast(tr20_ftf_tel#10 as double) AS recall#20]
+:                 +- Filter ((cast(fimrc_ftf_tel#11 as int) = 0) AND (cast(fdlrc_ftf_tel#12 as int) = 0))
+:                    +- Filter (isnotnull(sleep_quality#17) AND ((cast(tr20_ftf_tel#10 as int) >= 0) AND (cast(tr20_ftf_tel#10 as int) <= 20)))
+:                       +- Filter ((cast(proxy#5 as int) = 0) AND cast(raeduc#1 as int) IN (cast(1 as int),cast(2 as int),cast(3 as int),cast(4 as int),cast(5 as int)))
+:                          +- Relation [hhidpn#0L,raeduc#1,wave#2,age#3,interview_status#4,proxy#5,sleepfal#6,sleepwkn#7,sleepwke#8,sleeprt#9,tr20_ftf_tel#10,fimrc_ftf_tel#11,fdlrc_ftf_tel#12,tr20_web#13,fimrc_web#14,fdlrc_web#15,sleep_disturbance#16,sleep_quality#17,age_band#18] parquet
++- Project [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#5560L, observations#5568L AS high_observations#5557L, mean_recall#5561, mean_recall#5569 AS high_mean_recall#5558, (mean_recall#5561 - mean_recall#5569) AS difference_from_high#5559]
+   +- Filter ((sleep_quality#5567 = high) AND sleep_quality#17 IN (medium,low))
+      +- Join Inner, (((wave#2 = wave#5564) AND (age_band#18 = age_band#5565)) AND (raeduc#1 = raeduc#5566))
+         :- SubqueryAlias a
+         :  +- SubqueryAlias grouped
+         :     +- CTERelationRef 13, true, [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#5560L, mean_recall#5561], false, false
+         +- SubqueryAlias h
+            +- SubqueryAlias grouped
+               +- CTERelationRef 13, true, [wave#5564, age_band#5565, raeduc#5566, sleep_quality#5567, observations#5568L, mean_recall#5569], false, false
+
+== Optimized Logical Plan ==
+Project [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#5560L, observations#5568L AS high_observations#5557L, mean_recall#5561, mean_recall#5569 AS high_mean_recall#5558, (mean_recall#5561 - mean_recall#5569) AS difference_from_high#5559]
++- Join Inner, (((wave#2 = wave#5673) AND (age_band#18 = age_band#5675)) AND (raeduc#1 = raeduc#5676))
+   :- Aggregate [wave#2, age_band#18, raeduc#1, sleep_quality#17], [wave#2, age_band#18, raeduc#1, sleep_quality#17, count(1) AS observations#5560L, avg(recall#20) AS mean_recall#5561]
+   :  +- Project [wave#2, age_band#18, raeduc#1, sleep_quality#17, recall#20]
+   :     +- Filter (sleep_quality#17 IN (medium,low) AND ((isnotnull(wave#2) AND isnotnull(age_band#18)) AND isnotnull(raeduc#1)))
+   :        +- InMemoryRelation [hhidpn#0L, wave#2, age#3, age_band#18, raeduc#1, sleep_quality#17, sleep_disturbance#16, recall#20], StorageLevel(disk, memory, deserialized, 1 replicas)
+   :              +- *(1) Project [hhidpn#0L, wave#2, age#3, age_band#18, raeduc#1, sleep_quality#17, sleep_disturbance#16, cast(tr20_ftf_tel#10 as double) AS recall#20]
+   :                 +- *(1) Filter ((((((((((isnotnull(proxy#5) AND isnotnull(tr20_ftf_tel#10)) AND isnotnull(fimrc_ftf_tel#11)) AND isnotnull(fdlrc_ftf_tel#12)) AND (proxy#5 = 0)) AND raeduc#1 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#17)) AND (tr20_ftf_tel#10 >= 0)) AND (tr20_ftf_tel#10 <= 20)) AND (fimrc_ftf_tel#11 = 0)) AND (fdlrc_ftf_tel#12 = 0))
+   :                    +- *(1) ColumnarToRow
+   :                       +- FileScan parquet [hhidpn#0L,raeduc#1,wave#2,age#3,proxy#5,tr20_ftf_tel#10,fimrc_ftf_tel#11,fdlrc_ftf_tel#12,sleep_disturbance#16,sleep_quality#17,age_band#18] Batched: true, DataFilters: [isnotnull(proxy#5), isnotnull(tr20_ftf_tel#10), isnotnull(fimrc_ftf_tel#11), isnotnull(fdlrc_ftf..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Proc..., PartitionFilters: [], PushedFilters: [IsNotNull(proxy), IsNotNull(tr20_ftf_tel), IsNotNull(fimrc_ftf_tel), IsNotNull(fdlrc_ftf_tel), E..., ReadSchema: struct<hhidpn:bigint,raeduc:smallint,wave:int,age:smallint,proxy:smallint,tr20_ftf_tel:smallint,f...
+   +- Aggregate [wave#5673, age_band#5675, raeduc#5676, sleep_quality#5677], [wave#5673, age_band#5675, raeduc#5676, count(1) AS observations#5568L, avg(recall#5679) AS mean_recall#5569]
+      +- Project [wave#5673, age_band#5675, raeduc#5676, sleep_quality#5677, recall#5679]
+         +- Filter ((isnotnull(sleep_quality#5677) AND (sleep_quality#5677 = high)) AND ((isnotnull(wave#5673) AND isnotnull(age_band#5675)) AND isnotnull(raeduc#5676)))
+            +- InMemoryRelation [hhidpn#5672L, wave#5673, age#5674, age_band#5675, raeduc#5676, sleep_quality#5677, sleep_disturbance#5678, recall#5679], StorageLevel(disk, memory, deserialized, 1 replicas)
+                  +- *(1) Project [hhidpn#0L, wave#2, age#3, age_band#18, raeduc#1, sleep_quality#17, sleep_disturbance#16, cast(tr20_ftf_tel#10 as double) AS recall#20]
+                     +- *(1) Filter ((((((((((isnotnull(proxy#5) AND isnotnull(tr20_ftf_tel#10)) AND isnotnull(fimrc_ftf_tel#11)) AND isnotnull(fdlrc_ftf_tel#12)) AND (proxy#5 = 0)) AND raeduc#1 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#17)) AND (tr20_ftf_tel#10 >= 0)) AND (tr20_ftf_tel#10 <= 20)) AND (fimrc_ftf_tel#11 = 0)) AND (fdlrc_ftf_tel#12 = 0))
+                        +- *(1) ColumnarToRow
+                           +- FileScan parquet [hhidpn#0L,raeduc#1,wave#2,age#3,proxy#5,tr20_ftf_tel#10,fimrc_ftf_tel#11,fdlrc_ftf_tel#12,sleep_disturbance#16,sleep_quality#17,age_band#18] Batched: true, DataFilters: [isnotnull(proxy#5), isnotnull(tr20_ftf_tel#10), isnotnull(fimrc_ftf_tel#11), isnotnull(fdlrc_ftf..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Proc..., PartitionFilters: [], PushedFilters: [IsNotNull(proxy), IsNotNull(tr20_ftf_tel), IsNotNull(fimrc_ftf_tel), IsNotNull(fdlrc_ftf_tel), E..., ReadSchema: struct<hhidpn:bigint,raeduc:smallint,wave:int,age:smallint,proxy:smallint,tr20_ftf_tel:smallint,f...
+
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=true
++- == Final Plan ==
+   ResultQueryStage 5
+   +- *(4) Project [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#5560L, observations#5568L AS high_observations#5557L, mean_recall#5561, mean_recall#5569 AS high_mean_recall#5558, (mean_recall#5561 - mean_recall#5569) AS difference_from_high#5559]
+      +- *(4) BroadcastHashJoin [wave#2, age_band#18, raeduc#1], [wave#5673, age_band#5675, raeduc#5676], Inner, BuildRight, false, false
+         :- *(4) HashAggregate(keys=[wave#2, age_band#18, raeduc#1, sleep_quality#17], functions=[count(1), avg(recall#20)], output=[wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#5560L, mean_recall#5561])
+         :  +- AQEShuffleRead coalesced
+         :     +- ShuffleQueryStage 2
+         :        +- Exchange hashpartitioning(wave#2, age_band#18, raeduc#1, sleep_quality#17, 4), ENSURE_REQUIREMENTS, [plan_id=4976]
+         :           +- *(1) HashAggregate(keys=[wave#2, age_band#18, raeduc#1, sleep_quality#17], functions=[partial_count(1), partial_avg(recall#20)], output=[wave#2, age_band#18, raeduc#1, sleep_quality#17, count#5805L, sum#5806, count#5807L])
+         :              +- *(1) Filter (((sleep_quality#17 IN (medium,low) AND isnotnull(wave#2)) AND isnotnull(age_band#18)) AND isnotnull(raeduc#1))
+         :                 +- TableCacheQueryStage 0
+         :                    +- InMemoryTableScan [wave#2, age_band#18, raeduc#1, sleep_quality#17, recall#20], [sleep_quality#17 IN (medium,low), isnotnull(wave#2), isnotnull(age_band#18), isnotnull(raeduc#1)]
+         :                          +- InMemoryRelation [hhidpn#0L, wave#2, age#3, age_band#18, raeduc#1, sleep_quality#17, sleep_disturbance#16, recall#20], StorageLevel(disk, memory, deserialized, 1 replicas)
+         :                                +- *(1) Project [hhidpn#0L, wave#2, age#3, age_band#18, raeduc#1, sleep_quality#17, sleep_disturbance#16, cast(tr20_ftf_tel#10 as double) AS recall#20]
+         :                                   +- *(1) Filter ((((((((((isnotnull(proxy#5) AND isnotnull(tr20_ftf_tel#10)) AND isnotnull(fimrc_ftf_tel#11)) AND isnotnull(fdlrc_ftf_tel#12)) AND (proxy#5 = 0)) AND raeduc#1 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#17)) AND (tr20_ftf_tel#10 >= 0)) AND (tr20_ftf_tel#10 <= 20)) AND (fimrc_ftf_tel#11 = 0)) AND (fdlrc_ftf_tel#12 = 0))
+         :                                      +- *(1) ColumnarToRow
+         :                                         +- FileScan parquet [hhidpn#0L,raeduc#1,wave#2,age#3,proxy#5,tr20_ftf_tel#10,fimrc_ftf_tel#11,fdlrc_ftf_tel#12,sleep_disturbance#16,sleep_quality#17,age_band#18] Batched: true, DataFilters: [isnotnull(proxy#5), isnotnull(tr20_ftf_tel#10), isnotnull(fimrc_ftf_tel#11), isnotnull(fdlrc_ftf..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Proc..., PartitionFilters: [], PushedFilters: [IsNotNull(proxy), IsNotNull(tr20_ftf_tel), IsNotNull(fimrc_ftf_tel), IsNotNull(fdlrc_ftf_tel), E..., ReadSchema: struct<hhidpn:bigint,raeduc:smallint,wave:int,age:smallint,proxy:smallint,tr20_ftf_tel:smallint,f...
+         +- BroadcastQueryStage 4
+            +- BroadcastExchange HashedRelationBroadcastMode(List(input[0, int, true], input[1, string, true], input[2, smallint, true]),false), [plan_id=5035]
+               +- *(3) HashAggregate(keys=[wave#5673, age_band#5675, raeduc#5676, sleep_quality#5677], functions=[count(1), avg(recall#5679)], output=[wave#5673, age_band#5675, raeduc#5676, observations#5568L, mean_recall#5569])
+                  +- AQEShuffleRead coalesced
+                     +- ShuffleQueryStage 3
+                        +- Exchange hashpartitioning(wave#5673, age_band#5675, raeduc#5676, sleep_quality#5677, 4), ENSURE_REQUIREMENTS, [plan_id=4999]
+                           +- *(2) HashAggregate(keys=[wave#5673, age_band#5675, raeduc#5676, sleep_quality#5677], functions=[partial_count(1), partial_avg(recall#5679)], output=[wave#5673, age_band#5675, raeduc#5676, sleep_quality#5677, count#5805L, sum#5810, count#5811L])
+                              +- *(2) Filter ((((isnotnull(sleep_quality#5677) AND (sleep_quality#5677 = high)) AND isnotnull(wave#5673)) AND isnotnull(age_band#5675)) AND isnotnull(raeduc#5676))
+                                 +- TableCacheQueryStage 1
+                                    +- InMemoryTableScan [wave#5673, age_band#5675, raeduc#5676, sleep_quality#5677, recall#5679], [isnotnull(sleep_quality#5677), (sleep_quality#5677 = high), isnotnull(wave#5673), isnotnull(age_band#5675), isnotnull(raeduc#5676)]
+                                          +- InMemoryRelation [hhidpn#5672L, wave#5673, age#5674, age_band#5675, raeduc#5676, sleep_quality#5677, sleep_disturbance#5678, recall#5679], StorageLevel(disk, memory, deserialized, 1 replicas)
+                                                +- *(1) Project [hhidpn#0L, wave#2, age#3, age_band#18, raeduc#1, sleep_quality#17, sleep_disturbance#16, cast(tr20_ftf_tel#10 as double) AS recall#20]
+                                                   +- *(1) Filter ((((((((((isnotnull(proxy#5) AND isnotnull(tr20_ftf_tel#10)) AND isnotnull(fimrc_ftf_tel#11)) AND isnotnull(fdlrc_ftf_tel#12)) AND (proxy#5 = 0)) AND raeduc#1 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#17)) AND (tr20_ftf_tel#10 >= 0)) AND (tr20_ftf_tel#10 <= 20)) AND (fimrc_ftf_tel#11 = 0)) AND (fdlrc_ftf_tel#12 = 0))
+                                                      +- *(1) ColumnarToRow
+                                                         +- FileScan parquet [hhidpn#0L,raeduc#1,wave#2,age#3,proxy#5,tr20_ftf_tel#10,fimrc_ftf_tel#11,fdlrc_ftf_tel#12,sleep_disturbance#16,sleep_quality#17,age_band#18] Batched: true, DataFilters: [isnotnull(proxy#5), isnotnull(tr20_ftf_tel#10), isnotnull(fimrc_ftf_tel#11), isnotnull(fdlrc_ftf..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Proc..., PartitionFilters: [], PushedFilters: [IsNotNull(proxy), IsNotNull(tr20_ftf_tel), IsNotNull(fimrc_ftf_tel), IsNotNull(fdlrc_ftf_tel), E..., ReadSchema: struct<hhidpn:bigint,raeduc:smallint,wave:int,age:smallint,proxy:smallint,tr20_ftf_tel:smallint,f...
++- == Initial Plan ==
+   Project [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#5560L, observations#5568L AS high_observations#5557L, mean_recall#5561, mean_recall#5569 AS high_mean_recall#5558, (mean_recall#5561 - mean_recall#5569) AS difference_from_high#5559]
+   +- BroadcastHashJoin [wave#2, age_band#18, raeduc#1], [wave#5673, age_band#5675, raeduc#5676], Inner, BuildRight, false, false
+      :- HashAggregate(keys=[wave#2, age_band#18, raeduc#1, sleep_quality#17], functions=[count(1), avg(recall#20)], output=[wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#5560L, mean_recall#5561])
+      :  +- Exchange hashpartitioning(wave#2, age_band#18, raeduc#1, sleep_quality#17, 4), ENSURE_REQUIREMENTS, [plan_id=4893]
+      :     +- HashAggregate(keys=[wave#2, age_band#18, raeduc#1, sleep_quality#17], functions=[partial_count(1), partial_avg(recall#20)], output=[wave#2, age_band#18, raeduc#1, sleep_quality#17, count#5805L, sum#5806, count#5807L])
+      :        +- Filter (((sleep_quality#17 IN (medium,low) AND isnotnull(wave#2)) AND isnotnull(age_band#18)) AND isnotnull(raeduc#1))
+      :           +- InMemoryTableScan [wave#2, age_band#18, raeduc#1, sleep_quality#17, recall#20], [sleep_quality#17 IN (medium,low), isnotnull(wave#2), isnotnull(age_band#18), isnotnull(raeduc#1)]
+      :                 +- InMemoryRelation [hhidpn#0L, wave#2, age#3, age_band#18, raeduc#1, sleep_quality#17, sleep_disturbance#16, recall#20], StorageLevel(disk, memory, deserialized, 1 replicas)
+      :                       +- *(1) Project [hhidpn#0L, wave#2, age#3, age_band#18, raeduc#1, sleep_quality#17, sleep_disturbance#16, cast(tr20_ftf_tel#10 as double) AS recall#20]
+      :                          +- *(1) Filter ((((((((((isnotnull(proxy#5) AND isnotnull(tr20_ftf_tel#10)) AND isnotnull(fimrc_ftf_tel#11)) AND isnotnull(fdlrc_ftf_tel#12)) AND (proxy#5 = 0)) AND raeduc#1 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#17)) AND (tr20_ftf_tel#10 >= 0)) AND (tr20_ftf_tel#10 <= 20)) AND (fimrc_ftf_tel#11 = 0)) AND (fdlrc_ftf_tel#12 = 0))
+      :                             +- *(1) ColumnarToRow
+      :                                +- FileScan parquet [hhidpn#0L,raeduc#1,wave#2,age#3,proxy#5,tr20_ftf_tel#10,fimrc_ftf_tel#11,fdlrc_ftf_tel#12,sleep_disturbance#16,sleep_quality#17,age_band#18] Batched: true, DataFilters: [isnotnull(proxy#5), isnotnull(tr20_ftf_tel#10), isnotnull(fimrc_ftf_tel#11), isnotnull(fdlrc_ftf..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Proc..., PartitionFilters: [], PushedFilters: [IsNotNull(proxy), IsNotNull(tr20_ftf_tel), IsNotNull(fimrc_ftf_tel), IsNotNull(fdlrc_ftf_tel), E..., ReadSchema: struct<hhidpn:bigint,raeduc:smallint,wave:int,age:smallint,proxy:smallint,tr20_ftf_tel:smallint,f...
+      +- BroadcastExchange HashedRelationBroadcastMode(List(input[0, int, true], input[1, string, true], input[2, smallint, true]),false), [plan_id=4898]
+         +- HashAggregate(keys=[wave#5673, age_band#5675, raeduc#5676, sleep_quality#5677], functions=[count(1), avg(recall#5679)], output=[wave#5673, age_band#5675, raeduc#5676, observations#5568L, mean_recall#5569])
+            +- Exchange hashpartitioning(wave#5673, age_band#5675, raeduc#5676, sleep_quality#5677, 4), ENSURE_REQUIREMENTS, [plan_id=4895]
+               +- HashAggregate(keys=[wave#5673, age_band#5675, raeduc#5676, sleep_quality#5677], functions=[partial_count(1), partial_avg(recall#5679)], output=[wave#5673, age_band#5675, raeduc#5676, sleep_quality#5677, count#5805L, sum#5810, count#5811L])
+                  +- Filter ((((isnotnull(sleep_quality#5677) AND (sleep_quality#5677 = high)) AND isnotnull(wave#5673)) AND isnotnull(age_band#5675)) AND isnotnull(raeduc#5676))
+                     +- InMemoryTableScan [wave#5673, age_band#5675, raeduc#5676, sleep_quality#5677, recall#5679], [isnotnull(sleep_quality#5677), (sleep_quality#5677 = high), isnotnull(wave#5673), isnotnull(age_band#5675), isnotnull(raeduc#5676)]
+                           +- InMemoryRelation [hhidpn#5672L, wave#5673, age#5674, age_band#5675, raeduc#5676, sleep_quality#5677, sleep_disturbance#5678, recall#5679], StorageLevel(disk, memory, deserialized, 1 replicas)
+                                 +- *(1) Project [hhidpn#0L, wave#2, age#3, age_band#18, raeduc#1, sleep_quality#17, sleep_disturbance#16, cast(tr20_ftf_tel#10 as double) AS recall#20]
+                                    +- *(1) Filter ((((((((((isnotnull(proxy#5) AND isnotnull(tr20_ftf_tel#10)) AND isnotnull(fimrc_ftf_tel#11)) AND isnotnull(fdlrc_ftf_tel#12)) AND (proxy#5 = 0)) AND raeduc#1 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#17)) AND (tr20_ftf_tel#10 >= 0)) AND (tr20_ftf_tel#10 <= 20)) AND (fimrc_ftf_tel#11 = 0)) AND (fdlrc_ftf_tel#12 = 0))
+                                       +- *(1) ColumnarToRow
+                                          +- FileScan parquet [hhidpn#0L,raeduc#1,wave#2,age#3,proxy#5,tr20_ftf_tel#10,fimrc_ftf_tel#11,fdlrc_ftf_tel#12,sleep_disturbance#16,sleep_quality#17,age_band#18] Batched: true, DataFilters: [isnotnull(proxy#5), isnotnull(tr20_ftf_tel#10), isnotnull(fimrc_ftf_tel#11), isnotnull(fdlrc_ftf..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Proc..., PartitionFilters: [], PushedFilters: [IsNotNull(proxy), IsNotNull(tr20_ftf_tel), IsNotNull(fimrc_ftf_tel), IsNotNull(fdlrc_ftf_tel), E..., ReadSchema: struct<hhidpn:bigint,raeduc:smallint,wave:int,age:smallint,proxy:smallint,tr20_ftf_tel:smallint,f...
+

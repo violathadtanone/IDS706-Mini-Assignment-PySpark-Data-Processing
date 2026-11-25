@@ -1,0 +1,32 @@
+[ {
+  "id" : 337,
+  "name" : "*(1) Project [hhidpn#0L, wave#2, age#3, age_band#18, raeduc#1, sleep_quality#17, sleep_disturbance#16, cast(tr20_ftf_tel#10 as double) AS recall#20]\n+- *(1) Filter ((((((((((isnotnull(proxy#5) AND isnotnull(tr20_ftf_tel#10)) AND isnotnull(fimrc_ftf_tel#11)) AND isnotnull(fdlrc_ftf_tel#12)) AND (proxy#5 = 0)) AND raeduc#1 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#17)) AND (tr20_ftf_tel#10 >= 0)) AND (tr20_ftf_tel#10 <= 20)) AND (fimrc_ftf_tel#11 = 0)) AND (fdlrc_ftf_tel#12 = 0))\n   +- *(1) ColumnarToRow\n      +- FileScan parquet [hhidpn#0L,raeduc#1,wave#2,age#3,proxy#5,tr20_ftf_tel#10,fimrc_ftf_tel#11,fdlrc_ftf_tel#12,sleep_disturbance#16,sleep_quality#17,age_band#18] Batched: true, DataFilters: [isnotnull(proxy#5), isnotnull(tr20_ftf_tel#10), isnotnull(fimrc_ftf_tel#11), isnotnull(fdlrc_ftf..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Proc..., PartitionFilters: [], PushedFilters: [IsNotNull(proxy), IsNotNull(tr20_ftf_tel), IsN...",
+  "numPartitions" : 2,
+  "numCachedPartitions" : 2,
+  "storageLevel" : "Disk Memory Deserialized 1x Replicated",
+  "memoryUsed" : 2755160,
+  "diskUsed" : 0,
+  "dataDistribution" : [ {
+    "address" : "localhost:61905",
+    "memoryUsed" : 2755160,
+    "memoryRemaining" : 443655935,
+    "diskUsed" : 0,
+    "onHeapMemoryUsed" : 2755160,
+    "offHeapMemoryUsed" : 0,
+    "onHeapMemoryRemaining" : 443655935,
+    "offHeapMemoryRemaining" : 0
+  } ],
+  "partitions" : [ {
+    "blockName" : "rdd_337_1",
+    "storageLevel" : "Memory Deserialized 1x Replicated",
+    "memoryUsed" : 872312,
+    "diskUsed" : 0,
+    "executors" : [ "driver" ]
+  }, {
+    "blockName" : "rdd_337_0",
+    "storageLevel" : "Memory Deserialized 1x Replicated",
+    "memoryUsed" : 1882848,
+    "diskUsed" : 0,
+    "executors" : [ "driver" ]
+  } ]
+} ]

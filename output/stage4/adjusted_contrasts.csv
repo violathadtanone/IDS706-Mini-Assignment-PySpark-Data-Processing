@@ -1,0 +1,17 @@
+model,age,contrast,difference
+additive,55.0,medium-high,-0.16018109669692748
+additive,55.0,low-high,-0.36979543911287927
+additive,65.0,medium-high,-0.16018109669692748
+additive,65.0,low-high,-0.36979543911287927
+additive,75.0,medium-high,-0.16018109669692748
+additive,75.0,low-high,-0.36979543911287927
+additive,85.0,medium-high,-0.16018109669692837
+additive,85.0,low-high,-0.36979543911288015
+interaction,55.0,medium-high,-0.3098718950139254
+interaction,55.0,low-high,-0.6646968712533958
+interaction,65.0,medium-high,-0.18899969570837527
+interaction,65.0,low-high,-0.4002494487114312
+interaction,75.0,medium-high,-0.06812749640282512
+interaction,75.0,low-high,-0.1358020261694648
+interaction,85.0,medium-high,0.05274470290272504
+interaction,85.0,low-high,0.12864539637249983

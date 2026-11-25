@@ -1,0 +1,747 @@
+<!DOCTYPE html><html data-bs-theme="light">
+      <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/static/bootstrap.min.css" type="text/css"/><link rel="stylesheet" href="/static/webui.css" type="text/css"/><script src="/static/sorttable.js"></script><script src="/static/jquery.min.js"></script><script src="/static/bootstrap.bundle.min.js"></script><script src="/static/initialize-tooltips.js"></script><script src="/static/table.js"></script><script src="/static/log-view.js"></script><script src="/static/webui.js"></script><script src="/static/scroll-button.js" type="module"></script><script nonce="38c2407b-1318-49e1-aa57-bba213fbcc55">setUIRoot('')</script>
+        <script nonce="38c2407b-1318-49e1-aa57-bba213fbcc55">document.documentElement.setAttribute('data-bs-theme',localStorage.getItem('spark-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))</script>
+        <script nonce="38c2407b-1318-49e1-aa57-bba213fbcc55">setAppBasePath('')</script>
+        
+        <link rel="stylesheet" href="/static/dataTables.bootstrap5.min.css" type="text/css"/><link rel="stylesheet" href="/static/jquery.dataTables.min.css" type="text/css"/><link rel="stylesheet" href="/static/webui-dataTables.css" type="text/css"/><script src="/static/jquery.dataTables.min.js"></script><script src="/static/dataTables.bootstrap5.min.js"></script>
+        <link rel="stylesheet" href="/static/vis-timeline-graph2d.min.css" type="text/css"/><link rel="stylesheet" href="/static/timeline-view.css" type="text/css"/><script src="/static/vis-timeline-graph2d.min.js"></script><script src="/static/timeline-view.js"></script>
+        <link rel="shortcut icon" href="/static/spark-logo.svg"></link>
+        <title>IDS706 Research V2 Stage 2 - Details for Query 18</title>
+      </head>
+      <body class="d-flex flex-column min-vh-100">
+        <div id="loading-overlay" class="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center d-none">
+          <div class="text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <h3 class="mt-2">Loading...</h3>
+          </div>
+        </div>
+        <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
+          <div class="navbar-header">
+            <div class="navbar-brand">
+              <a href="/">
+                <img class="spark-logo" src="/static/spark-logo.svg" alt="Spark Logo" height="36"/>
+              </a>
+            </div>
+          </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto"><li class="nav-item">
+        <a class="nav-link" href="/jobs/">Jobs</a>
+      </li><li class="nav-item">
+        <a class="nav-link" href="/stages/">Stages</a>
+      </li><li class="nav-item">
+        <a class="nav-link" href="/storage/">Storage</a>
+      </li><li class="nav-item">
+        <a class="nav-link" href="/environment/">Environment</a>
+      </li><li class="nav-item">
+        <a class="nav-link" href="/executors/">Executors</a>
+      </li><li class="nav-item active">
+        <a class="nav-link" href="/SQL/">SQL / DataFrame</a>
+      </li></ul>
+            <span class="navbar-text navbar-right d-none d-md-block">
+              <strong title="IDS706 Research V2 Stage 2" class="text-nowrap">IDS706 Research V2 Stage 2</strong>
+              <span class="text-nowrap">application UI</span>
+            </span>
+            <button id="theme-toggle" class="btn btn-sm btn-link text-decoration-none fs-5 ms-2 p-0" type="button" title="Toggle dark mode"></button>
+          </div>
+        </nav>
+        <div class="container-fluid flex-fill">
+          <div class="row">
+            <div class="col-12">
+              <h3 class="align-bottom text-nowrap overflow-hidden text-truncate">
+                Details for Query 18
+                
+              </h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="mb-3">
+          <table id="sql-execution-table" class="table table-striped compact cell-border" style="width:100%" data-execution-id="18">
+          </table>
+          
+          <div id="plan-viz-download-btn-container">
+            <select id="plan-viz-format-select" aria-label="Plan visualization download format">
+              <option value="svg">SVG</option>
+              <option value="dot">DOT</option>
+              <option value="txt">TXT</option>
+            </select>
+            <button id="plan-viz-download-btn" class="btn btn-sm btn-outline-secondary ms-2" type="button" title="Download plan visualization">
+              ⬇️ Download</button>
+            <button id="copy-plan-btn" class="btn btn-sm btn-outline-secondary ms-2" type="button" title="Copy physical plan to clipboard">
+              📋 Copy Plan</button>
+            <button id="copy-link-btn" class="btn btn-sm btn-outline-secondary ms-2" type="button" title="Copy shareable link to this execution">
+              🔗 Copy Link</button>
+          </div>
+          <script src="/static/sql/sql-table-utils.js"></script>
+          <script src="/static/sql/executionpage.js"></script>
+        </div><div>
+      <div>
+        <span data-action="togglePlanViz">
+          <h4>
+            <span id="plan-viz-graph-arrow" class="arrow-open"></span>
+            <a>Plan Visualization</a>
+          </h4>
+        </span>
+      </div>
+
+      <div id="plan-viz-content" class="row">
+        <div id="plan-viz-graph-col" class="col-12">
+          <div id="plan-viz-graph">
+            <div>
+              <input type="checkbox" id="stageId-and-taskId-checkbox"></input>
+              <span>Show the Stage ID and Task ID that corresponds to the max metric</span>
+            </div>
+            <div>
+              <input type="checkbox" id="detailed-labels-checkbox"></input>
+              <span>Show metrics in graph nodes (detailed mode)</span>
+            </div>
+            <div id="plan-viz-zoom-toolbar" class="plan-viz-zoom-toolbar">
+              <div id="plan-viz-search-collapsed" class="btn-group btn-group-sm me-2" role="group" aria-label="Search">
+                <button id="plan-viz-search-toggle" type="button" class="btn btn-light border" title="Find node (/)">🔍</button>
+              </div>
+              <div id="plan-viz-search-expanded" class="input-group input-group-sm me-2 d-none" role="group" aria-label="Search">
+                <input id="plan-viz-search-input" type="search" autocomplete="off" class="form-control form-control-sm border" placeholder="Find node..." aria-label="Find node"/>
+                <span id="plan-viz-search-count" class="input-group-text bg-light"></span>
+                <button id="plan-viz-search-prev" type="button" class="btn btn-light border" title="Previous match (Shift+Enter)">↑</button>
+                <button id="plan-viz-search-next" type="button" class="btn btn-light border" title="Next match (Enter)">↓</button>
+                <button id="plan-viz-search-close" type="button" class="btn btn-light border" title="Close search (Esc)">&times;</button>
+              </div>
+              <div class="btn-group btn-group-sm" role="group" aria-label="Zoom controls">
+                <button id="plan-viz-zoom-out" type="button" class="btn btn-light border" title="Zoom out (-)">−</button>
+                <button id="plan-viz-zoom-reset" type="button" class="btn btn-light border" title="Reset zoom to fit (0)">
+                  <span id="plan-viz-zoom-level">100%</span>
+                </button>
+                <button id="plan-viz-zoom-in" type="button" class="btn btn-light border" title="Zoom in (+)">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="plan-viz-details-col" class="col-4 d-none">
+          <div id="plan-viz-details-panel" class="sticky-top" style="top: 4rem; z-index: 1;">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="fw-bold" id="plan-viz-details-title">Details</span>
+                <button id="plan-viz-panel-close" class="btn btn-sm btn-close" type="button" title="Close panel"></button>
+              </div>
+              <div class="card-body" id="plan-viz-details-body">
+                <p class="text-muted mb-0">Click a node to view details</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="plan-viz-metadata" style="display:none">
+        <div class="dot-file">
+          digraph G {
+  0 [id=&quot;node0&quot; label=&quot;AdaptiveSparkPlan&quot; tooltip=&quot;AdaptiveSparkPlan isFinalPlan=true&quot;];
+
+  subgraph cluster1 {
+    isCluster=&quot;true&quot;;
+    id=&quot;cluster1&quot;;
+    label=&quot;(4) / 13 ms&quot;;
+    tooltip=&quot;WholeStageCodegen (4)&quot;;
+      2 [id=&quot;node2&quot; label=&quot;Project&quot; tooltip=&quot;Project [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#971L, observations#979L AS high_observations#968L, mean_recall#972, mean_recall#980 AS high_mean_recall#969, (mean_recall#972 - mean_recall#980) AS difference_from_high#970]&quot;];    
+  3 [id=&quot;node3&quot; label=&quot;BroadcastHashJoin&quot; tooltip=&quot;BroadcastHashJoin [wave#2, age_band#18, raeduc#1], [wave#1005, age_band#1021, raeduc#1004], Inner, BuildLeft, false, false&quot;];    
+  15 [id=&quot;node15&quot; label=&quot;HashAggregate&quot; tooltip=&quot;HashAggregate(keys=[wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020], functions=[count(1), avg(recall#1022)])&quot;];
+  }
+     
+  4 [id=&quot;node4&quot; label=&quot;BroadcastExchange&quot; tooltip=&quot;BroadcastExchange HashedRelationBroadcastMode(List(input[0, int, true], input[1, string, true], input[2, smallint, true]),false), [plan_id=1021]&quot;];
+
+  subgraph cluster5 {
+    isCluster=&quot;true&quot;;
+    id=&quot;cluster5&quot;;
+    label=&quot;(3) / 11 ms&quot;;
+    tooltip=&quot;WholeStageCodegen (3)&quot;;
+      6 [id=&quot;node6&quot; label=&quot;HashAggregate&quot; tooltip=&quot;HashAggregate(keys=[wave#2, age_band#18, raeduc#1, sleep_quality#17], functions=[count(1), avg(recall#20)])&quot;];
+  }
+     
+  7 [id=&quot;node7&quot; label=&quot;AQEShuffleRead&quot; tooltip=&quot;AQEShuffleRead coalesced&quot;];
+  8 [id=&quot;node8&quot; label=&quot;Exchange&quot; tooltip=&quot;Exchange hashpartitioning(wave#2, age_band#18, raeduc#1, sleep_quality#17, 4), ENSURE_REQUIREMENTS, [plan_id=944]&quot;];
+
+  subgraph cluster9 {
+    isCluster=&quot;true&quot;;
+    id=&quot;cluster9&quot;;
+    label=&quot;(1) / 563 ms&quot;;
+    tooltip=&quot;WholeStageCodegen (1)&quot;;
+      10 [id=&quot;node10&quot; label=&quot;HashAggregate&quot; tooltip=&quot;HashAggregate(keys=[wave#2, age_band#18, raeduc#1, sleep_quality#17], functions=[partial_count(1), partial_avg(recall#20)])&quot;];    
+  11 [id=&quot;node11&quot; label=&quot;Project&quot; tooltip=&quot;Project [wave#2, age_band#18, raeduc#1, sleep_quality#17, cast(tr20_ftf_tel#10 as double) AS recall#20]&quot;];    
+  12 [id=&quot;node12&quot; label=&quot;Filter&quot; tooltip=&quot;Filter ((((((((((((((isnotnull(proxy#5) AND isnotnull(tr20_ftf_tel#10)) AND isnotnull(fimrc_ftf_tel#11)) AND isnotnull(fdlrc_ftf_tel#12)) AND (proxy#5 = 0)) AND raeduc#1 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#17)) AND (tr20_ftf_tel#10 &gt;= 0)) AND (tr20_ftf_tel#10 &lt;= 20)) AND (fimrc_ftf_tel#11 = 0)) AND (fdlrc_ftf_tel#12 = 0)) AND sleep_quality#17 IN (medium,low)) AND isnotnull(wave#2)) AND isnotnull(age_band#18)) AND isnotnull(raeduc#1))&quot;];    
+  13 [id=&quot;node13&quot; label=&quot;ColumnarToRow&quot; tooltip=&quot;ColumnarToRow&quot;];
+  }
+     
+  14 [id=&quot;node14&quot; label=&quot;Scan parquet &quot; tooltip=&quot;FileScan parquet [raeduc#1,wave#2,proxy#5,tr20_ftf_tel#10,fimrc_ftf_tel#11,fdlrc_ftf_tel#12,sleep_quality#17,age_band#18] Batched: true, DataFilters: [isnotnull(proxy#5), isnotnull(tr20_ftf_tel#10), isnotnull(fimrc_ftf_tel#11), isnotnull(fdlrc_ftf..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Proc..., PartitionFilters: [], PushedFilters: [IsNotNull(proxy), IsNotNull(tr20_ftf_tel), IsNotNull(fimrc_ftf_tel), IsNotNull(fdlrc_ftf_tel), E..., ReadSchema: struct&lt;raeduc:smallint,wave:int,proxy:smallint,tr20_ftf_tel:smallint,fimrc_ftf_tel:smallint,fdlrc...&quot;];
+  16 [id=&quot;node16&quot; label=&quot;AQEShuffleRead&quot; tooltip=&quot;AQEShuffleRead coalesced&quot;];
+  17 [id=&quot;node17&quot; label=&quot;Exchange&quot; tooltip=&quot;Exchange hashpartitioning(wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, 4), ENSURE_REQUIREMENTS, [plan_id=981]&quot;];
+
+  subgraph cluster18 {
+    isCluster=&quot;true&quot;;
+    id=&quot;cluster18&quot;;
+    label=&quot;(2) / 487 ms&quot;;
+    tooltip=&quot;WholeStageCodegen (2)&quot;;
+      19 [id=&quot;node19&quot; label=&quot;HashAggregate&quot; tooltip=&quot;HashAggregate(keys=[wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020], functions=[partial_count(1), partial_avg(recall#1022)])&quot;];    
+  20 [id=&quot;node20&quot; label=&quot;Project&quot; tooltip=&quot;Project [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, cast(tr20_ftf_tel#1013 as double) AS recall#1022]&quot;];    
+  21 [id=&quot;node21&quot; label=&quot;Filter&quot; tooltip=&quot;Filter ((((((((((((((isnotnull(proxy#1008) AND isnotnull(tr20_ftf_tel#1013)) AND isnotnull(fimrc_ftf_tel#1014)) AND isnotnull(fdlrc_ftf_tel#1015)) AND (proxy#1008 = 0)) AND raeduc#1004 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#1020)) AND (tr20_ftf_tel#1013 &gt;= 0)) AND (tr20_ftf_tel#1013 &lt;= 20)) AND (fimrc_ftf_tel#1014 = 0)) AND (fdlrc_ftf_tel#1015 = 0)) AND (sleep_quality#1020 = high)) AND isnotnull(wave#1005)) AND isnotnull(age_band#1021)) AND isnotnull(raeduc#1004))&quot;];    
+  22 [id=&quot;node22&quot; label=&quot;ColumnarToRow&quot; tooltip=&quot;ColumnarToRow&quot;];
+  }
+     
+  23 [id=&quot;node23&quot; label=&quot;Scan parquet &quot; tooltip=&quot;FileScan parquet [raeduc#1004,wave#1005,proxy#1008,tr20_ftf_tel#1013,fimrc_ftf_tel#1014,fdlrc_ftf_tel#1015,sleep_quality#1020,age_band#1021] Batched: true, DataFilters: [isnotnull(proxy#1008), isnotnull(tr20_ftf_tel#1013), isnotnull(fimrc_ftf_tel#1014), isnotnull(fd..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Proc..., PartitionFilters: [], PushedFilters: [IsNotNull(proxy), IsNotNull(tr20_ftf_tel), IsNotNull(fimrc_ftf_tel), IsNotNull(fdlrc_ftf_tel), E..., ReadSchema: struct&lt;raeduc:smallint,wave:int,proxy:smallint,tr20_ftf_tel:smallint,fimrc_ftf_tel:smallint,fdlrc...&quot;];
+  2-&gt;0;
+
+  3-&gt;2 [label=&quot;396&quot; labeltooltip=&quot;396 rows&quot;];
+
+  4-&gt;3 [label=&quot;398&quot; labeltooltip=&quot;398 rows&quot;];
+
+  6-&gt;4 [label=&quot;398&quot; labeltooltip=&quot;398 rows&quot;];
+
+  7-&gt;6;
+
+  8-&gt;7;
+
+  10-&gt;8 [label=&quot;746&quot; labeltooltip=&quot;746 rows&quot;];
+
+  11-&gt;10;
+
+  12-&gt;11 [label=&quot;70,519&quot; labeltooltip=&quot;70,519 rows&quot;];
+
+  13-&gt;12 [label=&quot;198,704&quot; labeltooltip=&quot;198,704 rows&quot;];
+
+  14-&gt;13 [label=&quot;198,704&quot; labeltooltip=&quot;198,704 rows&quot;];
+
+  15-&gt;3 [label=&quot;210&quot; labeltooltip=&quot;210 rows&quot;];
+
+  16-&gt;15;
+
+  17-&gt;16;
+
+  19-&gt;17 [label=&quot;399&quot; labeltooltip=&quot;399 rows&quot;];
+
+  20-&gt;19;
+
+  21-&gt;20 [label=&quot;72,105&quot; labeltooltip=&quot;72,105 rows&quot;];
+
+  22-&gt;21 [label=&quot;198,704&quot; labeltooltip=&quot;198,704 rows&quot;];
+
+  23-&gt;22 [label=&quot;198,704&quot; labeltooltip=&quot;198,704 rows&quot;];
+
+}
+        </div>
+        <div class="node-details">
+          {
+  &quot;node0&quot;:{&quot;name&quot;:&quot;AdaptiveSparkPlan&quot;,&quot;desc&quot;:&quot;AdaptiveSparkPlan isFinalPlan=true&quot;,&quot;metrics&quot;:[]},
+  &quot;node2&quot;:{&quot;name&quot;:&quot;Project&quot;,&quot;desc&quot;:&quot;Project [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#971L, observations#979L AS high_observations#968L, mean_recall#972, mean_recall#980 AS high_mean_recall#969, (mean_recall#972 - mean_recall#980) AS difference_from_high#970]&quot;,&quot;metrics&quot;:[]},
+  &quot;node3&quot;:{&quot;name&quot;:&quot;BroadcastHashJoin&quot;,&quot;desc&quot;:&quot;BroadcastHashJoin [wave#2, age_band#18, raeduc#1], [wave#1005, age_band#1021, raeduc#1004], Inner, BuildLeft, false, false&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;number of output rows&quot;,&quot;value&quot;:&quot;396&quot;,&quot;type&quot;:&quot;sum&quot;}]},
+  &quot;node15&quot;:{&quot;name&quot;:&quot;HashAggregate&quot;,&quot;desc&quot;:&quot;HashAggregate(keys=[wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020], functions=[count(1), avg(recall#1022)])&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;spill size&quot;,&quot;value&quot;:&quot;0.0 B&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;time in aggregation build&quot;,&quot;value&quot;:&quot;2 ms&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;peak memory&quot;,&quot;value&quot;:&quot;8.2 MiB&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;number of output rows&quot;,&quot;value&quot;:&quot;210&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;number of sort fallback tasks&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;avg hash probes per key&quot;,&quot;value&quot;:&quot;1&quot;,&quot;type&quot;:&quot;average&quot;}]},
+  &quot;cluster1&quot;:{&quot;name&quot;:&quot;WholeStageCodegen (4)&quot;,&quot;desc&quot;:&quot;WholeStageCodegen (4)&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;duration&quot;,&quot;value&quot;:&quot;13 ms&quot;,&quot;type&quot;:&quot;timing&quot;}],&quot;children&quot;:[&quot;node2&quot;,&quot;node3&quot;,&quot;node15&quot;]},
+  &quot;node4&quot;:{&quot;name&quot;:&quot;BroadcastExchange&quot;,&quot;desc&quot;:&quot;BroadcastExchange HashedRelationBroadcastMode(List(input[0, int, true], input[1, string, true], input[2, smallint, true]),false), [plan_id=1021]&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;time to broadcast&quot;,&quot;value&quot;:&quot;17 ms&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;time to build&quot;,&quot;value&quot;:&quot;28 ms&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;time to collect&quot;,&quot;value&quot;:&quot;225 ms&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;number of output rows&quot;,&quot;value&quot;:&quot;398&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;data size&quot;,&quot;value&quot;:&quot;8.0 MiB&quot;,&quot;type&quot;:&quot;size&quot;}]},
+  &quot;node6&quot;:{&quot;name&quot;:&quot;HashAggregate&quot;,&quot;desc&quot;:&quot;HashAggregate(keys=[wave#2, age_band#18, raeduc#1, sleep_quality#17], functions=[count(1), avg(recall#20)])&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;spill size&quot;,&quot;value&quot;:&quot;0.0 B&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;time in aggregation build&quot;,&quot;value&quot;:&quot;6 ms&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;peak memory&quot;,&quot;value&quot;:&quot;8.2 MiB&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;number of output rows&quot;,&quot;value&quot;:&quot;398&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;number of sort fallback tasks&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;avg hash probes per key&quot;,&quot;value&quot;:&quot;1&quot;,&quot;type&quot;:&quot;average&quot;}]},
+  &quot;cluster5&quot;:{&quot;name&quot;:&quot;WholeStageCodegen (3)&quot;,&quot;desc&quot;:&quot;WholeStageCodegen (3)&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;duration&quot;,&quot;value&quot;:&quot;11 ms&quot;,&quot;type&quot;:&quot;timing&quot;}],&quot;children&quot;:[&quot;node6&quot;]},
+  &quot;node7&quot;:{&quot;name&quot;:&quot;AQEShuffleRead&quot;,&quot;desc&quot;:&quot;AQEShuffleRead coalesced&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;number of partitions&quot;,&quot;value&quot;:&quot;1&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;number of empty partitions&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;partition data size&quot;,&quot;value&quot;:&quot;22.1 KiB&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;number of coalesced partitions&quot;,&quot;value&quot;:&quot;1&quot;,&quot;type&quot;:&quot;sum&quot;}]},
+  &quot;node8&quot;:{&quot;name&quot;:&quot;Exchange&quot;,&quot;desc&quot;:&quot;Exchange hashpartitioning(wave#2, age_band#18, raeduc#1, sleep_quality#17, 4), ENSURE_REQUIREMENTS, [plan_id=944]&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;shuffle records written&quot;,&quot;value&quot;:&quot;746&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;remote merged reqs duration&quot;,&quot;value&quot;:&quot;0 ms&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;remote merged blocks fetched&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;records read&quot;,&quot;value&quot;:&quot;746&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;local bytes read&quot;,&quot;value&quot;:&quot;21.0 KiB&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;merged fetch fallback count&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;local blocks read&quot;,&quot;value&quot;:&quot;2&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;remote merged chunks fetched&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;remote blocks read&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;data size&quot;,&quot;value&quot;:&quot;total (min, med, max (stageId: taskId))\n58.3 KiB (29.1 KiB, 29.1 KiB, 29.1 KiB (stage 50.0: task 44))&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;local merged bytes read&quot;,&quot;value&quot;:&quot;0.0 B&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;local merged chunks fetched&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;shuffle write time&quot;,&quot;value&quot;:&quot;total (min, med, max (stageId: taskId))\n9 ms (3 ms, 6 ms, 6 ms (stage 50.0: task 43))&quot;,&quot;type&quot;:&quot;nsTiming&quot;},{&quot;name&quot;:&quot;remote merged bytes read&quot;,&quot;value&quot;:&quot;0.0 B&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;local merged blocks fetched&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;corrupt merged block chunks&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;fetch wait time&quot;,&quot;value&quot;:&quot;0 ms&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;remote bytes read&quot;,&quot;value&quot;:&quot;0.0 B&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;number of partitions&quot;,&quot;value&quot;:&quot;4&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;remote reqs duration&quot;,&quot;value&quot;:&quot;0 ms&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;remote bytes read to disk&quot;,&quot;value&quot;:&quot;0.0 B&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;shuffle bytes written&quot;,&quot;value&quot;:&quot;total (min, med, max (stageId: taskId))\n21.0 KiB (10.4 KiB, 10.6 KiB, 10.6 KiB (stage 50.0: task 43))&quot;,&quot;type&quot;:&quot;size&quot;}]},
+  &quot;node10&quot;:{&quot;name&quot;:&quot;HashAggregate&quot;,&quot;desc&quot;:&quot;HashAggregate(keys=[wave#2, age_band#18, raeduc#1, sleep_quality#17], functions=[partial_count(1), partial_avg(recall#20)])&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;spill size&quot;,&quot;value&quot;:&quot;0.0 B&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;time in aggregation build&quot;,&quot;value&quot;:&quot;total (min, med, max (stageId: taskId))\n492 ms (198 ms, 294 ms, 294 ms (stage 50.0: task 43))&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;peak memory&quot;,&quot;value&quot;:&quot;total (min, med, max (stageId: taskId))\n512.0 KiB (256.0 KiB, 256.0 KiB, 256.0 KiB (stage 50.0: task 44))&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;number of output rows&quot;,&quot;value&quot;:&quot;746&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;number of sort fallback tasks&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;avg hash probes per key&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;average&quot;}]},
+  &quot;node11&quot;:{&quot;name&quot;:&quot;Project&quot;,&quot;desc&quot;:&quot;Project [wave#2, age_band#18, raeduc#1, sleep_quality#17, cast(tr20_ftf_tel#10 as double) AS recall#20]&quot;,&quot;metrics&quot;:[]},
+  &quot;node12&quot;:{&quot;name&quot;:&quot;Filter&quot;,&quot;desc&quot;:&quot;Filter ((((((((((((((isnotnull(proxy#5) AND isnotnull(tr20_ftf_tel#10)) AND isnotnull(fimrc_ftf_tel#11)) AND isnotnull(fdlrc_ftf_tel#12)) AND (proxy#5 = 0)) AND raeduc#1 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#17)) AND (tr20_ftf_tel#10 &gt;= 0)) AND (tr20_ftf_tel#10 &lt;= 20)) AND (fimrc_ftf_tel#11 = 0)) AND (fdlrc_ftf_tel#12 = 0)) AND sleep_quality#17 IN (medium,low)) AND isnotnull(wave#2)) AND isnotnull(age_band#18)) AND isnotnull(raeduc#1))&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;number of output rows&quot;,&quot;value&quot;:&quot;70,519&quot;,&quot;type&quot;:&quot;sum&quot;}]},
+  &quot;node13&quot;:{&quot;name&quot;:&quot;ColumnarToRow&quot;,&quot;desc&quot;:&quot;ColumnarToRow&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;number of output rows&quot;,&quot;value&quot;:&quot;198,704&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;number of input batches&quot;,&quot;value&quot;:&quot;50&quot;,&quot;type&quot;:&quot;sum&quot;}]},
+  &quot;cluster9&quot;:{&quot;name&quot;:&quot;WholeStageCodegen (1)&quot;,&quot;desc&quot;:&quot;WholeStageCodegen (1)&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;duration&quot;,&quot;value&quot;:&quot;total (min, med, max (stageId: taskId))\n563 ms (235 ms, 328 ms, 328 ms (stage 50.0: task 43))&quot;,&quot;type&quot;:&quot;timing&quot;}],&quot;children&quot;:[&quot;node10&quot;,&quot;node11&quot;,&quot;node12&quot;,&quot;node13&quot;]},
+  &quot;node14&quot;:{&quot;name&quot;:&quot;Scan parquet &quot;,&quot;desc&quot;:&quot;FileScan parquet [raeduc#1,wave#2,proxy#5,tr20_ftf_tel#10,fimrc_ftf_tel#11,fdlrc_ftf_tel#12,sleep_quality#17,age_band#18] Batched: true, DataFilters: [isnotnull(proxy#5), isnotnull(tr20_ftf_tel#10), isnotnull(fimrc_ftf_tel#11), isnotnull(fdlrc_ftf..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:\/Users\/maruair\/Downloads\/IDS706-Mini-Assignment-PySpark-Data-Proc..., PartitionFilters: [], PushedFilters: [IsNotNull(proxy), IsNotNull(tr20_ftf_tel), IsNotNull(fimrc_ftf_tel), IsNotNull(fdlrc_ftf_tel), E..., ReadSchema: struct&lt;raeduc:smallint,wave:int,proxy:smallint,tr20_ftf_tel:smallint,fimrc_ftf_tel:smallint,fdlrc...&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;number of files read&quot;,&quot;value&quot;:&quot;2&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;scan time&quot;,&quot;value&quot;:&quot;total (min, med, max (stageId: taskId))\n66 ms (31 ms, 35 ms, 35 ms (stage 50.0: task 43))&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;metadata time&quot;,&quot;value&quot;:&quot;1 ms&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;size of files read&quot;,&quot;value&quot;:&quot;1322.0 KiB&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;number of output rows&quot;,&quot;value&quot;:&quot;198,704&quot;,&quot;type&quot;:&quot;sum&quot;}]},
+  &quot;node16&quot;:{&quot;name&quot;:&quot;AQEShuffleRead&quot;,&quot;desc&quot;:&quot;AQEShuffleRead coalesced&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;number of partitions&quot;,&quot;value&quot;:&quot;1&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;number of empty partitions&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;partition data size&quot;,&quot;value&quot;:&quot;11.5 KiB&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;number of coalesced partitions&quot;,&quot;value&quot;:&quot;1&quot;,&quot;type&quot;:&quot;sum&quot;}]},
+  &quot;node17&quot;:{&quot;name&quot;:&quot;Exchange&quot;,&quot;desc&quot;:&quot;Exchange hashpartitioning(wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, 4), ENSURE_REQUIREMENTS, [plan_id=981]&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;shuffle records written&quot;,&quot;value&quot;:&quot;399&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;remote merged reqs duration&quot;,&quot;value&quot;:&quot;0 ms&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;remote merged blocks fetched&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;records read&quot;,&quot;value&quot;:&quot;399&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;local bytes read&quot;,&quot;value&quot;:&quot;10.9 KiB&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;merged fetch fallback count&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;local blocks read&quot;,&quot;value&quot;:&quot;2&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;remote merged chunks fetched&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;remote blocks read&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;data size&quot;,&quot;value&quot;:&quot;total (min, med, max (stageId: taskId))\n31.2 KiB (15.2 KiB, 15.9 KiB, 15.9 KiB (stage 51.0: task 45))&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;local merged bytes read&quot;,&quot;value&quot;:&quot;0.0 B&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;local merged chunks fetched&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;shuffle write time&quot;,&quot;value&quot;:&quot;total (min, med, max (stageId: taskId))\n11 ms (5 ms, 6 ms, 6 ms (stage 51.0: task 45))&quot;,&quot;type&quot;:&quot;nsTiming&quot;},{&quot;name&quot;:&quot;remote merged bytes read&quot;,&quot;value&quot;:&quot;0.0 B&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;local merged blocks fetched&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;corrupt merged block chunks&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;fetch wait time&quot;,&quot;value&quot;:&quot;0 ms&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;remote bytes read&quot;,&quot;value&quot;:&quot;0.0 B&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;number of partitions&quot;,&quot;value&quot;:&quot;4&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;remote reqs duration&quot;,&quot;value&quot;:&quot;0 ms&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;remote bytes read to disk&quot;,&quot;value&quot;:&quot;0.0 B&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;shuffle bytes written&quot;,&quot;value&quot;:&quot;total (min, med, max (stageId: taskId))\n10.9 KiB (5.4 KiB, 5.6 KiB, 5.6 KiB (stage 51.0: task 45))&quot;,&quot;type&quot;:&quot;size&quot;}]},
+  &quot;node19&quot;:{&quot;name&quot;:&quot;HashAggregate&quot;,&quot;desc&quot;:&quot;HashAggregate(keys=[wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020], functions=[partial_count(1), partial_avg(recall#1022)])&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;spill size&quot;,&quot;value&quot;:&quot;0.0 B&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;time in aggregation build&quot;,&quot;value&quot;:&quot;total (min, med, max (stageId: taskId))\n458 ms (182 ms, 276 ms, 276 ms (stage 51.0: task 45))&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;peak memory&quot;,&quot;value&quot;:&quot;total (min, med, max (stageId: taskId))\n512.0 KiB (256.0 KiB, 256.0 KiB, 256.0 KiB (stage 51.0: task 46))&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;number of output rows&quot;,&quot;value&quot;:&quot;399&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;number of sort fallback tasks&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;avg hash probes per key&quot;,&quot;value&quot;:&quot;0&quot;,&quot;type&quot;:&quot;average&quot;}]},
+  &quot;node20&quot;:{&quot;name&quot;:&quot;Project&quot;,&quot;desc&quot;:&quot;Project [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, cast(tr20_ftf_tel#1013 as double) AS recall#1022]&quot;,&quot;metrics&quot;:[]},
+  &quot;node21&quot;:{&quot;name&quot;:&quot;Filter&quot;,&quot;desc&quot;:&quot;Filter ((((((((((((((isnotnull(proxy#1008) AND isnotnull(tr20_ftf_tel#1013)) AND isnotnull(fimrc_ftf_tel#1014)) AND isnotnull(fdlrc_ftf_tel#1015)) AND (proxy#1008 = 0)) AND raeduc#1004 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#1020)) AND (tr20_ftf_tel#1013 &gt;= 0)) AND (tr20_ftf_tel#1013 &lt;= 20)) AND (fimrc_ftf_tel#1014 = 0)) AND (fdlrc_ftf_tel#1015 = 0)) AND (sleep_quality#1020 = high)) AND isnotnull(wave#1005)) AND isnotnull(age_band#1021)) AND isnotnull(raeduc#1004))&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;number of output rows&quot;,&quot;value&quot;:&quot;72,105&quot;,&quot;type&quot;:&quot;sum&quot;}]},
+  &quot;node22&quot;:{&quot;name&quot;:&quot;ColumnarToRow&quot;,&quot;desc&quot;:&quot;ColumnarToRow&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;number of output rows&quot;,&quot;value&quot;:&quot;198,704&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;number of input batches&quot;,&quot;value&quot;:&quot;50&quot;,&quot;type&quot;:&quot;sum&quot;}]},
+  &quot;cluster18&quot;:{&quot;name&quot;:&quot;WholeStageCodegen (2)&quot;,&quot;desc&quot;:&quot;WholeStageCodegen (2)&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;duration&quot;,&quot;value&quot;:&quot;total (min, med, max (stageId: taskId))\n487 ms (194 ms, 293 ms, 293 ms (stage 51.0: task 45))&quot;,&quot;type&quot;:&quot;timing&quot;}],&quot;children&quot;:[&quot;node19&quot;,&quot;node20&quot;,&quot;node21&quot;,&quot;node22&quot;]},
+  &quot;node23&quot;:{&quot;name&quot;:&quot;Scan parquet &quot;,&quot;desc&quot;:&quot;FileScan parquet [raeduc#1004,wave#1005,proxy#1008,tr20_ftf_tel#1013,fimrc_ftf_tel#1014,fdlrc_ftf_tel#1015,sleep_quality#1020,age_band#1021] Batched: true, DataFilters: [isnotnull(proxy#1008), isnotnull(tr20_ftf_tel#1013), isnotnull(fimrc_ftf_tel#1014), isnotnull(fd..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:\/Users\/maruair\/Downloads\/IDS706-Mini-Assignment-PySpark-Data-Proc..., PartitionFilters: [], PushedFilters: [IsNotNull(proxy), IsNotNull(tr20_ftf_tel), IsNotNull(fimrc_ftf_tel), IsNotNull(fdlrc_ftf_tel), E..., ReadSchema: struct&lt;raeduc:smallint,wave:int,proxy:smallint,tr20_ftf_tel:smallint,fimrc_ftf_tel:smallint,fdlrc...&quot;,&quot;metrics&quot;:[{&quot;name&quot;:&quot;number of files read&quot;,&quot;value&quot;:&quot;2&quot;,&quot;type&quot;:&quot;sum&quot;},{&quot;name&quot;:&quot;scan time&quot;,&quot;value&quot;:&quot;total (min, med, max (stageId: taskId))\n45 ms (18 ms, 27 ms, 27 ms (stage 51.0: task 45))&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;metadata time&quot;,&quot;value&quot;:&quot;0 ms&quot;,&quot;type&quot;:&quot;timing&quot;},{&quot;name&quot;:&quot;size of files read&quot;,&quot;value&quot;:&quot;1322.0 KiB&quot;,&quot;type&quot;:&quot;size&quot;},{&quot;name&quot;:&quot;number of output rows&quot;,&quot;value&quot;:&quot;198,704&quot;,&quot;type&quot;:&quot;sum&quot;}]}
+}
+        </div>
+      </div>
+      <link rel="stylesheet" href="/static/sql/spark-sql-viz.css" type="text/css"/><script src="/static/d3.min.js"></script><script src="/static/dagre-d3.min.js"></script><script src="/static/graphlib-dot.min.js"></script><script src="/static/sql/spark-sql-viz.js"></script>
+    </div><div>
+      <span class="collapse-table" data-bs-toggle="collapse" data-bs-target="#physical-plan-details" aria-expanded="false" aria-controls="physical-plan-details" data-collapse-name="collapse-plan-details">
+        <h4>
+          <span class="collapse-table-arrow arrow-closed"></span>
+          <a>Plan Details</a>
+        </h4>
+      </span>
+      <div class="collapsible-table collapse" id="physical-plan-details">
+        <div>
+            <ul class="nav nav-pills nav-pills-sm mb-2" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active btn-sm" data-bs-toggle="pill" data-bs-target="#plan-unified-tab" type="button" role="tab">Unified</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link btn-sm" data-bs-toggle="pill" data-bs-target="#plan-split-tab" type="button" role="tab">Split</button>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="plan-unified-tab" role="tabpanel">
+                <pre>== Physical Plan ==
+AdaptiveSparkPlan (37)
++- == Final Plan ==
+   ResultQueryStage (23), Statistics(sizeInBytes=8.0 EiB)
+   +- * Project (22)
+      +- * BroadcastHashJoin Inner BuildLeft (21)
+         :- BroadcastQueryStage (11), Statistics(sizeInBytes=8.0 MiB, rowCount=398)
+         :  +- BroadcastExchange (10)
+         :     +- * HashAggregate (9)
+         :        +- AQEShuffleRead (8), coalesced
+         :           +- ShuffleQueryStage (7), Statistics(sizeInBytes=58.3 KiB, rowCount=746)
+         :              +- Exchange (6)
+         :                 +- * HashAggregate (5)
+         :                    +- * Project (4)
+         :                       +- * Filter (3)
+         :                          +- * ColumnarToRow (2)
+         :                             +- Scan parquet  (1)
+         +- * HashAggregate (20)
+            +- AQEShuffleRead (19), coalesced
+               +- ShuffleQueryStage (18), Statistics(sizeInBytes=31.2 KiB, rowCount=399)
+                  +- Exchange (17)
+                     +- * HashAggregate (16)
+                        +- * Project (15)
+                           +- * Filter (14)
+                              +- * ColumnarToRow (13)
+                                 +- Scan parquet  (12)
++- == Initial Plan ==
+   Project (36)
+   +- BroadcastHashJoin Inner BuildRight (35)
+      :- HashAggregate (28)
+      :  +- Exchange (27)
+      :     +- HashAggregate (26)
+      :        +- Project (25)
+      :           +- Filter (24)
+      :              +- Scan parquet  (1)
+      +- BroadcastExchange (34)
+         +- HashAggregate (33)
+            +- Exchange (32)
+               +- HashAggregate (31)
+                  +- Project (30)
+                     +- Filter (29)
+                        +- Scan parquet  (12)
+
+
+(1) Scan parquet 
+Output [8]: [raeduc#1, wave#2, proxy#5, tr20_ftf_tel#10, fimrc_ftf_tel#11, fdlrc_ftf_tel#12, sleep_quality#17, age_band#18]
+Batched: true
+Location: InMemoryFileIndex [file:/Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Processing/output/research_v2/stage1/respondent_wave]
+PushedFilters: [IsNotNull(proxy), IsNotNull(tr20_ftf_tel), IsNotNull(fimrc_ftf_tel), IsNotNull(fdlrc_ftf_tel), EqualTo(proxy,0), In(raeduc, [1,2,3,4,5]), IsNotNull(sleep_quality), GreaterThanOrEqual(tr20_ftf_tel,0), LessThanOrEqual(tr20_ftf_tel,20), EqualTo(fimrc_ftf_tel,0), EqualTo(fdlrc_ftf_tel,0), In(sleep_quality, [low,medium]), IsNotNull(wave), IsNotNull(age_band), IsNotNull(raeduc)]
+ReadSchema: struct&lt;raeduc:smallint,wave:int,proxy:smallint,tr20_ftf_tel:smallint,fimrc_ftf_tel:smallint,fdlrc_ftf_tel:smallint,sleep_quality:string,age_band:string&gt;
+
+(2) ColumnarToRow [codegen id : 1]
+Input [8]: [raeduc#1, wave#2, proxy#5, tr20_ftf_tel#10, fimrc_ftf_tel#11, fdlrc_ftf_tel#12, sleep_quality#17, age_band#18]
+
+(3) Filter [codegen id : 1]
+Input [8]: [raeduc#1, wave#2, proxy#5, tr20_ftf_tel#10, fimrc_ftf_tel#11, fdlrc_ftf_tel#12, sleep_quality#17, age_band#18]
+Condition : ((((((((((((((isnotnull(proxy#5) AND isnotnull(tr20_ftf_tel#10)) AND isnotnull(fimrc_ftf_tel#11)) AND isnotnull(fdlrc_ftf_tel#12)) AND (proxy#5 = 0)) AND raeduc#1 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#17)) AND (tr20_ftf_tel#10 &gt;= 0)) AND (tr20_ftf_tel#10 &lt;= 20)) AND (fimrc_ftf_tel#11 = 0)) AND (fdlrc_ftf_tel#12 = 0)) AND sleep_quality#17 IN (medium,low)) AND isnotnull(wave#2)) AND isnotnull(age_band#18)) AND isnotnull(raeduc#1))
+
+(4) Project [codegen id : 1]
+Output [5]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, cast(tr20_ftf_tel#10 as double) AS recall#20]
+Input [8]: [raeduc#1, wave#2, proxy#5, tr20_ftf_tel#10, fimrc_ftf_tel#11, fdlrc_ftf_tel#12, sleep_quality#17, age_band#18]
+
+(5) HashAggregate [codegen id : 1]
+Input [5]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, recall#20]
+Keys [4]: [wave#2, age_band#18, raeduc#1, sleep_quality#17]
+Functions [2]: [partial_count(1), partial_avg(recall#20)]
+Aggregate Attributes [3]: [count#1025L, sum#1026, count#1027L]
+Results [7]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, count#1028L, sum#1029, count#1030L]
+
+(6) Exchange
+Input [7]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, count#1028L, sum#1029, count#1030L]
+Arguments: hashpartitioning(wave#2, age_band#18, raeduc#1, sleep_quality#17, 4), ENSURE_REQUIREMENTS, [plan_id=944]
+
+(7) ShuffleQueryStage
+Output [7]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, count#1028L, sum#1029, count#1030L]
+Arguments: 0
+
+(8) AQEShuffleRead
+Input [7]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, count#1028L, sum#1029, count#1030L]
+Arguments: coalesced
+
+(9) HashAggregate [codegen id : 3]
+Input [7]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, count#1028L, sum#1029, count#1030L]
+Keys [4]: [wave#2, age_band#18, raeduc#1, sleep_quality#17]
+Functions [2]: [count(1), avg(recall#20)]
+Aggregate Attributes [2]: [count(1)#973L, avg(recall#20)#974]
+Results [6]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, count(1)#973L AS observations#971L, avg(recall#20)#974 AS mean_recall#972]
+
+(10) BroadcastExchange
+Input [6]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#971L, mean_recall#972]
+Arguments: HashedRelationBroadcastMode(List(input[0, int, true], input[1, string, true], input[2, smallint, true]),false), [plan_id=1021]
+
+(11) BroadcastQueryStage
+Output [6]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#971L, mean_recall#972]
+Arguments: 2
+
+(12) Scan parquet 
+Output [8]: [raeduc#1004, wave#1005, proxy#1008, tr20_ftf_tel#1013, fimrc_ftf_tel#1014, fdlrc_ftf_tel#1015, sleep_quality#1020, age_band#1021]
+Batched: true
+Location: InMemoryFileIndex [file:/Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Processing/output/research_v2/stage1/respondent_wave]
+PushedFilters: [IsNotNull(proxy), IsNotNull(tr20_ftf_tel), IsNotNull(fimrc_ftf_tel), IsNotNull(fdlrc_ftf_tel), EqualTo(proxy,0), In(raeduc, [1,2,3,4,5]), IsNotNull(sleep_quality), GreaterThanOrEqual(tr20_ftf_tel,0), LessThanOrEqual(tr20_ftf_tel,20), EqualTo(fimrc_ftf_tel,0), EqualTo(fdlrc_ftf_tel,0), EqualTo(sleep_quality,high), IsNotNull(wave), IsNotNull(age_band), IsNotNull(raeduc)]
+ReadSchema: struct&lt;raeduc:smallint,wave:int,proxy:smallint,tr20_ftf_tel:smallint,fimrc_ftf_tel:smallint,fdlrc_ftf_tel:smallint,sleep_quality:string,age_band:string&gt;
+
+(13) ColumnarToRow [codegen id : 2]
+Input [8]: [raeduc#1004, wave#1005, proxy#1008, tr20_ftf_tel#1013, fimrc_ftf_tel#1014, fdlrc_ftf_tel#1015, sleep_quality#1020, age_band#1021]
+
+(14) Filter [codegen id : 2]
+Input [8]: [raeduc#1004, wave#1005, proxy#1008, tr20_ftf_tel#1013, fimrc_ftf_tel#1014, fdlrc_ftf_tel#1015, sleep_quality#1020, age_band#1021]
+Condition : ((((((((((((((isnotnull(proxy#1008) AND isnotnull(tr20_ftf_tel#1013)) AND isnotnull(fimrc_ftf_tel#1014)) AND isnotnull(fdlrc_ftf_tel#1015)) AND (proxy#1008 = 0)) AND raeduc#1004 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#1020)) AND (tr20_ftf_tel#1013 &gt;= 0)) AND (tr20_ftf_tel#1013 &lt;= 20)) AND (fimrc_ftf_tel#1014 = 0)) AND (fdlrc_ftf_tel#1015 = 0)) AND (sleep_quality#1020 = high)) AND isnotnull(wave#1005)) AND isnotnull(age_band#1021)) AND isnotnull(raeduc#1004))
+
+(15) Project [codegen id : 2]
+Output [5]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, cast(tr20_ftf_tel#1013 as double) AS recall#1022]
+Input [8]: [raeduc#1004, wave#1005, proxy#1008, tr20_ftf_tel#1013, fimrc_ftf_tel#1014, fdlrc_ftf_tel#1015, sleep_quality#1020, age_band#1021]
+
+(16) HashAggregate [codegen id : 2]
+Input [5]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, recall#1022]
+Keys [4]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020]
+Functions [2]: [partial_count(1), partial_avg(recall#1022)]
+Aggregate Attributes [3]: [count#1025L, sum#1031, count#1032L]
+Results [7]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, count#1028L, sum#1033, count#1034L]
+
+(17) Exchange
+Input [7]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, count#1028L, sum#1033, count#1034L]
+Arguments: hashpartitioning(wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, 4), ENSURE_REQUIREMENTS, [plan_id=981]
+
+(18) ShuffleQueryStage
+Output [7]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, count#1028L, sum#1033, count#1034L]
+Arguments: 1
+
+(19) AQEShuffleRead
+Input [7]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, count#1028L, sum#1033, count#1034L]
+Arguments: coalesced
+
+(20) HashAggregate
+Input [7]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, count#1028L, sum#1033, count#1034L]
+Keys [4]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020]
+Functions [2]: [count(1), avg(recall#1022)]
+Aggregate Attributes [2]: [count(1)#973L, avg(recall#1022)#974]
+Results [5]: [wave#1005, age_band#1021, raeduc#1004, count(1)#973L AS observations#979L, avg(recall#1022)#974 AS mean_recall#980]
+
+(21) BroadcastHashJoin [codegen id : 4]
+Left keys [3]: [wave#2, age_band#18, raeduc#1]
+Right keys [3]: [wave#1005, age_band#1021, raeduc#1004]
+Join type: Inner
+Join condition: None
+
+(22) Project [codegen id : 4]
+Output [9]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#971L, observations#979L AS high_observations#968L, mean_recall#972, mean_recall#980 AS high_mean_recall#969, (mean_recall#972 - mean_recall#980) AS difference_from_high#970]
+Input [11]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#971L, mean_recall#972, wave#1005, age_band#1021, raeduc#1004, observations#979L, mean_recall#980]
+
+(23) ResultQueryStage
+Output [9]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#971L, high_observations#968L, mean_recall#972, high_mean_recall#969, difference_from_high#970]
+Arguments: 3
+
+(24) Filter
+Input [8]: [raeduc#1, wave#2, proxy#5, tr20_ftf_tel#10, fimrc_ftf_tel#11, fdlrc_ftf_tel#12, sleep_quality#17, age_band#18]
+Condition : ((((((((((((((isnotnull(proxy#5) AND isnotnull(tr20_ftf_tel#10)) AND isnotnull(fimrc_ftf_tel#11)) AND isnotnull(fdlrc_ftf_tel#12)) AND (proxy#5 = 0)) AND raeduc#1 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#17)) AND (tr20_ftf_tel#10 &gt;= 0)) AND (tr20_ftf_tel#10 &lt;= 20)) AND (fimrc_ftf_tel#11 = 0)) AND (fdlrc_ftf_tel#12 = 0)) AND sleep_quality#17 IN (medium,low)) AND isnotnull(wave#2)) AND isnotnull(age_band#18)) AND isnotnull(raeduc#1))
+
+(25) Project
+Output [5]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, cast(tr20_ftf_tel#10 as double) AS recall#20]
+Input [8]: [raeduc#1, wave#2, proxy#5, tr20_ftf_tel#10, fimrc_ftf_tel#11, fdlrc_ftf_tel#12, sleep_quality#17, age_band#18]
+
+(26) HashAggregate
+Input [5]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, recall#20]
+Keys [4]: [wave#2, age_band#18, raeduc#1, sleep_quality#17]
+Functions [2]: [partial_count(1), partial_avg(recall#20)]
+Aggregate Attributes [3]: [count#1025L, sum#1026, count#1027L]
+Results [7]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, count#1028L, sum#1029, count#1030L]
+
+(27) Exchange
+Input [7]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, count#1028L, sum#1029, count#1030L]
+Arguments: hashpartitioning(wave#2, age_band#18, raeduc#1, sleep_quality#17, 4), ENSURE_REQUIREMENTS, [plan_id=912]
+
+(28) HashAggregate
+Input [7]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, count#1028L, sum#1029, count#1030L]
+Keys [4]: [wave#2, age_band#18, raeduc#1, sleep_quality#17]
+Functions [2]: [count(1), avg(recall#20)]
+Aggregate Attributes [2]: [count(1)#973L, avg(recall#20)#974]
+Results [6]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, count(1)#973L AS observations#971L, avg(recall#20)#974 AS mean_recall#972]
+
+(29) Filter
+Input [8]: [raeduc#1004, wave#1005, proxy#1008, tr20_ftf_tel#1013, fimrc_ftf_tel#1014, fdlrc_ftf_tel#1015, sleep_quality#1020, age_band#1021]
+Condition : ((((((((((((((isnotnull(proxy#1008) AND isnotnull(tr20_ftf_tel#1013)) AND isnotnull(fimrc_ftf_tel#1014)) AND isnotnull(fdlrc_ftf_tel#1015)) AND (proxy#1008 = 0)) AND raeduc#1004 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#1020)) AND (tr20_ftf_tel#1013 &gt;= 0)) AND (tr20_ftf_tel#1013 &lt;= 20)) AND (fimrc_ftf_tel#1014 = 0)) AND (fdlrc_ftf_tel#1015 = 0)) AND (sleep_quality#1020 = high)) AND isnotnull(wave#1005)) AND isnotnull(age_band#1021)) AND isnotnull(raeduc#1004))
+
+(30) Project
+Output [5]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, cast(tr20_ftf_tel#1013 as double) AS recall#1022]
+Input [8]: [raeduc#1004, wave#1005, proxy#1008, tr20_ftf_tel#1013, fimrc_ftf_tel#1014, fdlrc_ftf_tel#1015, sleep_quality#1020, age_band#1021]
+
+(31) HashAggregate
+Input [5]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, recall#1022]
+Keys [4]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020]
+Functions [2]: [partial_count(1), partial_avg(recall#1022)]
+Aggregate Attributes [3]: [count#1025L, sum#1031, count#1032L]
+Results [7]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, count#1028L, sum#1033, count#1034L]
+
+(32) Exchange
+Input [7]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, count#1028L, sum#1033, count#1034L]
+Arguments: hashpartitioning(wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, 4), ENSURE_REQUIREMENTS, [plan_id=914]
+
+(33) HashAggregate
+Input [7]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020, count#1028L, sum#1033, count#1034L]
+Keys [4]: [wave#1005, age_band#1021, raeduc#1004, sleep_quality#1020]
+Functions [2]: [count(1), avg(recall#1022)]
+Aggregate Attributes [2]: [count(1)#973L, avg(recall#1022)#974]
+Results [5]: [wave#1005, age_band#1021, raeduc#1004, count(1)#973L AS observations#979L, avg(recall#1022)#974 AS mean_recall#980]
+
+(34) BroadcastExchange
+Input [5]: [wave#1005, age_band#1021, raeduc#1004, observations#979L, mean_recall#980]
+Arguments: HashedRelationBroadcastMode(List(input[0, int, true], input[1, string, true], input[2, smallint, true]),false), [plan_id=917]
+
+(35) BroadcastHashJoin
+Left keys [3]: [wave#2, age_band#18, raeduc#1]
+Right keys [3]: [wave#1005, age_band#1021, raeduc#1004]
+Join type: Inner
+Join condition: None
+
+(36) Project
+Output [9]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#971L, observations#979L AS high_observations#968L, mean_recall#972, mean_recall#980 AS high_mean_recall#969, (mean_recall#972 - mean_recall#980) AS difference_from_high#970]
+Input [11]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#971L, mean_recall#972, wave#1005, age_band#1021, raeduc#1004, observations#979L, mean_recall#980]
+
+(37) AdaptiveSparkPlan
+Output [9]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#971L, high_observations#968L, mean_recall#972, high_mean_recall#969, difference_from_high#970]
+Arguments: isFinalPlan=true
+
+</pre>
+              </div>
+              <div class="tab-pane fade" id="plan-split-tab" role="tabpanel">
+                <div class="row">
+                  <div class="col-6">
+                    <h6 class="fw-bold text-muted">Initial Plan</h6>
+                    <pre class="border rounded p-2" style="font-size: 0.8rem; max-height: 600px; overflow: auto;">Project (36)
+   +- BroadcastHashJoin Inner BuildRight (35)
+      :- HashAggregate (28)
+      :  +- Exchange (27)
+      :     +- HashAggregate (26)
+      :        +- Project (25)
+      :           +- Filter (24)
+      :              +- Scan parquet  (1)
+      +- BroadcastExchange (34)
+         +- HashAggregate (33)
+            +- Exchange (32)
+               +- HashAggregate (31)
+                  +- Project (30)
+                     +- Filter (29)
+                        +- Scan parquet  (12)</pre>
+                  </div>
+                  <div class="col-6">
+                    <h6 class="fw-bold text-muted">Final Plan</h6>
+                    <pre class="border rounded p-2" style="font-size: 0.8rem; max-height: 600px; overflow: auto;">ResultQueryStage (23), Statistics(sizeInBytes=8.0 EiB)
+   +- * Project (22)
+      +- * BroadcastHashJoin Inner BuildLeft (21)
+         :- BroadcastQueryStage (11), Statistics(sizeInBytes=8.0 MiB, rowCount=398)
+         :  +- BroadcastExchange (10)
+         :     +- * HashAggregate (9)
+         :        +- AQEShuffleRead (8), coalesced
+         :           +- ShuffleQueryStage (7), Statistics(sizeInBytes=58.3 KiB, rowCount=746)
+         :              +- Exchange (6)
+         :                 +- * HashAggregate (5)
+         :                    +- * Project (4)
+         :                       +- * Filter (3)
+         :                          +- * ColumnarToRow (2)
+         :                             +- Scan parquet  (1)
+         +- * HashAggregate (20)
+            +- AQEShuffleRead (19), coalesced
+               +- ShuffleQueryStage (18), Statistics(sizeInBytes=31.2 KiB, rowCount=399)
+                  +- Exchange (17)
+                     +- * HashAggregate (16)
+                        +- * Project (15)
+                           +- * Filter (14)
+                              +- * ColumnarToRow (13)
+                                 +- Scan parquet  (12)</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div><div>
+      <span class="collapse-table" data-bs-toggle="collapse" data-bs-target="#sql-jobs-table" aria-expanded="true" aria-controls="sql-jobs-table" data-collapse-name="collapse-sql-jobs">
+        <h4>
+          <span class="collapse-table-arrow arrow-open"></span>
+          <a>Associated Jobs (4)</a>
+        </h4>
+      </span>
+      <div class="collapsible-table collapse show" id="sql-jobs-table">
+        <div>
+      <span class="expand-application-timeline">
+        <span class="expand-application-timeline-arrow arrow-closed"></span>
+        <a>Job Timeline</a>
+      </span>
+      <div id="application-timeline" class="collapsed">
+        <div class="control-panel">
+          <div id="application-timeline-zoom-lock">
+            <input type="checkbox"></input>
+            <span>Enable zooming</span>
+          </div>
+        </div>
+      </div>
+      <script type="text/javascript" nonce="38c2407b-1318-49e1-aa57-bba213fbcc55">
+        drawApplicationTimeline([{'id': 'jobs', 'content': '<div>Jobs</div>'}], [{
+  'className': 'job application-timeline-object succeeded',
+  'group': 'jobs',
+  'start': new Date(1795505820045),
+  'end': new Date(1795505820471),
+  'content': '<div class="application-timeline-content"' +
+    'data-bs-html="true" data-bs-toggle="tooltip"' +
+    'data-bs-title="v2:contrasts_uncached_p4:first:0 (Job 28)<br>' +
+    'Status: SUCCEEDED<br>' +
+    'Duration: 0.4 s">' +
+    'v2:contrasts_uncached_p4:first:0 (Job 28)</div>'
+},{
+  'className': 'job application-timeline-object succeeded',
+  'group': 'jobs',
+  'start': new Date(1795505820064),
+  'end': new Date(1795505820757),
+  'content': '<div class="application-timeline-content"' +
+    'data-bs-html="true" data-bs-toggle="tooltip"' +
+    'data-bs-title="v2:contrasts_uncached_p4:first:0 (Job 29)<br>' +
+    'Status: SUCCEEDED<br>' +
+    'Duration: 0.7 s">' +
+    'v2:contrasts_uncached_p4:first:0 (Job 29)</div>'
+},{
+  'className': 'job application-timeline-object succeeded',
+  'group': 'jobs',
+  'start': new Date(1795505820580),
+  'end': new Date(1795505820738),
+  'content': '<div class="application-timeline-content"' +
+    'data-bs-html="true" data-bs-toggle="tooltip"' +
+    'data-bs-title="v2:contrasts_uncached_p4:first:0 (Job 30)<br>' +
+    'Status: SUCCEEDED<br>' +
+    'Duration: 0.2 s">' +
+    'v2:contrasts_uncached_p4:first:0 (Job 30)</div>'
+},{
+  'className': 'job application-timeline-object succeeded',
+  'group': 'jobs',
+  'start': new Date(1795505820912),
+  'end': new Date(1795505820996),
+  'content': '<div class="application-timeline-content"' +
+    'data-bs-html="true" data-bs-toggle="tooltip"' +
+    'data-bs-title="v2:contrasts_uncached_p4:first:0 (Job 31)<br>' +
+    'Status: SUCCEEDED<br>' +
+    'Duration: 84 ms">' +
+    'v2:contrasts_uncached_p4:first:0 (Job 31)</div>'
+}], 1795505819843, -300);
+      </script>
+    </div>
+        <div class="table-responsive">
+        <table class="table table-bordered table-hover table-sm sortable">
+          <thead>
+            <tr>
+              <th>Job ID</th>
+              <th>Description</th>
+              <th>Submitted</th>
+              <th>Duration</th>
+              <th class="sorttable_nosort">Stages: Succeeded/Total</th>
+              <th class="sorttable_nosort">Tasks (for all stages): Succeeded/Total</th>
+            </tr>
+          </thead>
+          <tbody><tr id="job-31">
+            <td><a href="/jobs/job/?id=31">31</a></td>
+            <td>
+              <span class="description-input">v2:contrasts_uncached_p4:first:0</span>
+              <a href="/jobs/job/?id=31" class="name-link">collect at /Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Processing/pyspark_pipeline.py:346</a>
+            </td>
+            <td sorttable_customkey="1795505820912">2026/11/24 02:37:00</td>
+            <td sorttable_customkey="84">84 ms</td>
+            <td class="stage-progress-cell">1/1 (1 skipped)</td>
+            <td class="progress-cell">
+              <div class="progress-stacked" title="1/1 (2 skipped)">
+      <span class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center">
+        1/1 (2 skipped)
+      </span>
+      <div class="progress" role="progressbar" aria-label="Completed" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100.0%">
+        <div class="progress-bar progress-completed"></div>
+      </div>
+      <div class="progress" role="progressbar" aria-label="Running" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0.0%">
+        <div class="progress-bar progress-started"></div>
+      </div>
+    </div>
+            </td>
+          </tr><tr id="job-30">
+            <td><a href="/jobs/job/?id=30">30</a></td>
+            <td>
+              <span class="description-input">v2:contrasts_uncached_p4:first:0</span>
+              <a href="/jobs/job/?id=30" class="name-link">collect at /Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Processing/pyspark_pipeline.py:346</a>
+            </td>
+            <td sorttable_customkey="1795505820580">2026/11/24 02:37:00</td>
+            <td sorttable_customkey="158">0.2 s</td>
+            <td class="stage-progress-cell">1/1 (1 skipped)</td>
+            <td class="progress-cell">
+              <div class="progress-stacked" title="1/1 (2 skipped)">
+      <span class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center">
+        1/1 (2 skipped)
+      </span>
+      <div class="progress" role="progressbar" aria-label="Completed" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100.0%">
+        <div class="progress-bar progress-completed"></div>
+      </div>
+      <div class="progress" role="progressbar" aria-label="Running" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0.0%">
+        <div class="progress-bar progress-started"></div>
+      </div>
+    </div>
+            </td>
+          </tr><tr id="job-29">
+            <td><a href="/jobs/job/?id=29">29</a></td>
+            <td>
+              <span class="description-input">v2:contrasts_uncached_p4:first:0</span>
+              <a href="/jobs/job/?id=29" class="name-link">collect at /Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Processing/pyspark_pipeline.py:346</a>
+            </td>
+            <td sorttable_customkey="1795505820064">2026/11/24 02:37:00</td>
+            <td sorttable_customkey="693">0.7 s</td>
+            <td class="stage-progress-cell">1/1 </td>
+            <td class="progress-cell">
+              <div class="progress-stacked" title="2/2">
+      <span class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center">
+        2/2
+      </span>
+      <div class="progress" role="progressbar" aria-label="Completed" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100.0%">
+        <div class="progress-bar progress-completed"></div>
+      </div>
+      <div class="progress" role="progressbar" aria-label="Running" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0.0%">
+        <div class="progress-bar progress-started"></div>
+      </div>
+    </div>
+            </td>
+          </tr><tr id="job-28">
+            <td><a href="/jobs/job/?id=28">28</a></td>
+            <td>
+              <span class="description-input">v2:contrasts_uncached_p4:first:0</span>
+              <a href="/jobs/job/?id=28" class="name-link">collect at /Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Processing/pyspark_pipeline.py:346</a>
+            </td>
+            <td sorttable_customkey="1795505820045">2026/11/24 02:37:00</td>
+            <td sorttable_customkey="426">0.4 s</td>
+            <td class="stage-progress-cell">1/1 </td>
+            <td class="progress-cell">
+              <div class="progress-stacked" title="2/2">
+      <span class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center">
+        2/2
+      </span>
+      <div class="progress" role="progressbar" aria-label="Completed" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100.0%">
+        <div class="progress-bar progress-completed"></div>
+      </div>
+      <div class="progress" role="progressbar" aria-label="Running" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0.0%">
+        <div class="progress-bar progress-started"></div>
+      </div>
+    </div>
+            </td>
+          </tr></tbody>
+        </table>
+        </div>
+      </div>
+    </div><br/>
+            </div>
+          </div>
+        </div>
+        <footer class="footer mt-auto py-2 bg-body-tertiary border-top">
+      <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center small text-body-secondary">
+          <span>4.3.0</span>
+          <span>Started: 2026/11/24 02:36:14</span><span id="footer-uptime" data-start-time="1795505774643"></span>
+          <span>maruair</span>
+        </div>
+      </div>
+    </footer>
+      </body>
+    </html>

@@ -1,0 +1,69 @@
+== Physical Plan ==
+AdaptiveSparkPlan (10)
++- HashAggregate (9)
+   +- Exchange (8)
+      +- HashAggregate (7)
+         +- HashAggregate (6)
+            +- Exchange (5)
+               +- HashAggregate (4)
+                  +- Project (3)
+                     +- Filter (2)
+                        +- Scan parquet  (1)
+
+
+(1) Scan parquet 
+Output [10]: [hhidpn#0L, raeduc#1, wave#2, age#3, proxy#5, tr20_ftf_tel#10, fimrc_ftf_tel#11, fdlrc_ftf_tel#12, sleep_quality#17, age_band#18]
+Batched: true
+Location: InMemoryFileIndex [file:/Users/maruair/Downloads/IDS706-Mini-Assignment-PySpark-Data-Processing/output/research_v2/stage1/respondent_wave]
+PushedFilters: [IsNotNull(proxy), IsNotNull(tr20_ftf_tel), IsNotNull(fimrc_ftf_tel), IsNotNull(fdlrc_ftf_tel), EqualTo(proxy,0), In(raeduc, [1,2,3,4,5]), IsNotNull(sleep_quality), GreaterThanOrEqual(tr20_ftf_tel,0), LessThanOrEqual(tr20_ftf_tel,20), EqualTo(fimrc_ftf_tel,0), EqualTo(fdlrc_ftf_tel,0)]
+ReadSchema: struct<hhidpn:bigint,raeduc:smallint,wave:int,age:smallint,proxy:smallint,tr20_ftf_tel:smallint,fimrc_ftf_tel:smallint,fdlrc_ftf_tel:smallint,sleep_quality:string,age_band:string>
+
+(2) Filter
+Input [10]: [hhidpn#0L, raeduc#1, wave#2, age#3, proxy#5, tr20_ftf_tel#10, fimrc_ftf_tel#11, fdlrc_ftf_tel#12, sleep_quality#17, age_band#18]
+Condition : ((((((((((isnotnull(proxy#5) AND isnotnull(tr20_ftf_tel#10)) AND isnotnull(fimrc_ftf_tel#11)) AND isnotnull(fdlrc_ftf_tel#12)) AND (proxy#5 = 0)) AND raeduc#1 IN (1,2,3,4,5)) AND isnotnull(sleep_quality#17)) AND (tr20_ftf_tel#10 >= 0)) AND (tr20_ftf_tel#10 <= 20)) AND (fimrc_ftf_tel#11 = 0)) AND (fdlrc_ftf_tel#12 = 0))
+
+(3) Project
+Output [7]: [hhidpn#0L, wave#2, age#3, age_band#18, raeduc#1, sleep_quality#17, cast(tr20_ftf_tel#10 as double) AS recall#20]
+Input [10]: [hhidpn#0L, raeduc#1, wave#2, age#3, proxy#5, tr20_ftf_tel#10, fimrc_ftf_tel#11, fdlrc_ftf_tel#12, sleep_quality#17, age_band#18]
+
+(4) HashAggregate
+Input [7]: [hhidpn#0L, wave#2, age#3, age_band#18, raeduc#1, sleep_quality#17, recall#20]
+Keys [5]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, hhidpn#0L]
+Functions [4]: [partial_count(1), partial_avg(age#3), partial_avg(recall#20), partial_stddev_samp(recall#20)]
+Aggregate Attributes [4]: [count(1)#1669L, avg(age#3)#1671, avg(recall#20)#1672, stddev_samp(recall#20)#1681]
+Results [13]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, hhidpn#0L, count#1691L, sum#1694, count#1695L, sum#1698, count#1699L, n#1678, avg#1679, m2#1680]
+
+(5) Exchange
+Input [13]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, hhidpn#0L, count#1691L, sum#1694, count#1695L, sum#1698, count#1699L, n#1678, avg#1679, m2#1680]
+Arguments: hashpartitioning(wave#2, age_band#18, raeduc#1, sleep_quality#17, hhidpn#0L, 2), ENSURE_REQUIREMENTS, [plan_id=2342]
+
+(6) HashAggregate
+Input [13]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, hhidpn#0L, count#1691L, sum#1694, count#1695L, sum#1698, count#1699L, n#1678, avg#1679, m2#1680]
+Keys [5]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, hhidpn#0L]
+Functions [4]: [merge_count(1), merge_avg(age#3), merge_avg(recall#20), merge_stddev_samp(recall#20)]
+Aggregate Attributes [4]: [count(1)#1669L, avg(age#3)#1671, avg(recall#20)#1672, stddev_samp(recall#20)#1681]
+Results [13]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, hhidpn#0L, count#1691L, sum#1694, count#1695L, sum#1698, count#1699L, n#1678, avg#1679, m2#1680]
+
+(7) HashAggregate
+Input [13]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, hhidpn#0L, count#1691L, sum#1694, count#1695L, sum#1698, count#1699L, n#1678, avg#1679, m2#1680]
+Keys [4]: [wave#2, age_band#18, raeduc#1, sleep_quality#17]
+Functions [5]: [merge_count(1), merge_avg(age#3), merge_avg(recall#20), merge_stddev_samp(recall#20), partial_count(distinct hhidpn#0L)]
+Aggregate Attributes [5]: [count(1)#1669L, avg(age#3)#1671, avg(recall#20)#1672, stddev_samp(recall#20)#1681, count(hhidpn#0L)#1670L]
+Results [13]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, count#1691L, sum#1694, count#1695L, sum#1698, count#1699L, n#1678, avg#1679, m2#1680, count#1702L]
+
+(8) Exchange
+Input [13]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, count#1691L, sum#1694, count#1695L, sum#1698, count#1699L, n#1678, avg#1679, m2#1680, count#1702L]
+Arguments: hashpartitioning(wave#2, age_band#18, raeduc#1, sleep_quality#17, 2), ENSURE_REQUIREMENTS, [plan_id=2346]
+
+(9) HashAggregate
+Input [13]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, count#1691L, sum#1694, count#1695L, sum#1698, count#1699L, n#1678, avg#1679, m2#1680, count#1702L]
+Keys [4]: [wave#2, age_band#18, raeduc#1, sleep_quality#17]
+Functions [5]: [count(1), avg(age#3), avg(recall#20), stddev_samp(recall#20), count(distinct hhidpn#0L)]
+Aggregate Attributes [5]: [count(1)#1669L, avg(age#3)#1671, avg(recall#20)#1672, stddev_samp(recall#20)#1681, count(hhidpn#0L)#1670L]
+Results [9]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, count(1)#1669L AS observations#1664L, count(hhidpn#0L)#1670L AS respondents#1665L, avg(age#3)#1671 AS mean_age#1666, avg(recall#20)#1672 AS mean_recall#1667, stddev_samp(recall#20)#1681 AS sd_recall#1668]
+
+(10) AdaptiveSparkPlan
+Output [9]: [wave#2, age_band#18, raeduc#1, sleep_quality#17, observations#1664L, respondents#1665L, mean_age#1666, mean_recall#1667, sd_recall#1668]
+Arguments: isFinalPlan=false
+
+

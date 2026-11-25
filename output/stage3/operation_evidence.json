@@ -1,0 +1,105 @@
+[
+  {
+    "operation": "Parquet schema loading",
+    "category": "metadata",
+    "job_group": "v2:metadata",
+    "before": [],
+    "after": [
+      0
+    ],
+    "new_jobs": [
+      0
+    ],
+    "seconds": 3.9353221339988522
+  },
+  {
+    "operation": "select()",
+    "category": "transformation",
+    "job_group": "v2:lazy",
+    "before": [],
+    "after": [],
+    "new_jobs": [],
+    "seconds": 0.16927945503266528
+  },
+  {
+    "operation": "filter()",
+    "category": "transformation",
+    "job_group": "v2:lazy",
+    "before": [],
+    "after": [],
+    "new_jobs": [],
+    "seconds": 0.5871000569895841
+  },
+  {
+    "operation": "withColumn()",
+    "category": "transformation",
+    "job_group": "v2:lazy",
+    "before": [],
+    "after": [],
+    "new_jobs": [],
+    "seconds": 0.10153163701761514
+  },
+  {
+    "operation": "groupBy().agg()",
+    "category": "transformation",
+    "job_group": "v2:lazy",
+    "before": [],
+    "after": [],
+    "new_jobs": [],
+    "seconds": 0.34548659197753295
+  },
+  {
+    "operation": "explain()",
+    "category": "transformation",
+    "job_group": "v2:lazy",
+    "before": [],
+    "after": [],
+    "new_jobs": [],
+    "seconds": 1.0786308500100859
+  },
+  {
+    "operation": "count()",
+    "category": "action",
+    "job_group": "v2:count",
+    "before": [],
+    "after": [
+      1,
+      2
+    ],
+    "new_jobs": [
+      1,
+      2
+    ],
+    "seconds": 2.7287214219686575
+  },
+  {
+    "operation": "show(10, truncate=False)",
+    "category": "action",
+    "job_group": "v2:show",
+    "before": [],
+    "after": [
+      3,
+      4
+    ],
+    "new_jobs": [
+      3,
+      4
+    ],
+    "seconds": 1.5157136340276338
+  },
+  {
+    "operation": "bounded collect for verification",
+    "category": "action",
+    "job_group": "v2:verify",
+    "before": [],
+    "after": [
+      5,
+      6
+    ],
+    "new_jobs": [
+      5,
+      6
+    ],
+    "seconds": 0.6662070120219141
+  }
+]

@@ -1,0 +1,242 @@
+[
+  {
+    "model": "additive",
+    "age": 55.0,
+    "sleep_quality": "high",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 10.888001365607506,
+    "training_support_within_5_years": 447,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "additive",
+    "age": 55.0,
+    "sleep_quality": "medium",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 10.727820268910579,
+    "training_support_within_5_years": 412,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "additive",
+    "age": 55.0,
+    "sleep_quality": "low",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 10.518205926494627,
+    "training_support_within_5_years": 132,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "additive",
+    "age": 65.0,
+    "sleep_quality": "high",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 9.910577165466606,
+    "training_support_within_5_years": 540,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "additive",
+    "age": 65.0,
+    "sleep_quality": "medium",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 9.750396068769678,
+    "training_support_within_5_years": 480,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "additive",
+    "age": 65.0,
+    "sleep_quality": "low",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 9.540781726353726,
+    "training_support_within_5_years": 152,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "additive",
+    "age": 75.0,
+    "sleep_quality": "high",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 8.933152965325705,
+    "training_support_within_5_years": 617,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "additive",
+    "age": 75.0,
+    "sleep_quality": "medium",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 8.772971868628778,
+    "training_support_within_5_years": 502,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "additive",
+    "age": 75.0,
+    "sleep_quality": "low",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 8.563357526212826,
+    "training_support_within_5_years": 121,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "additive",
+    "age": 85.0,
+    "sleep_quality": "high",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 7.955728765184806,
+    "training_support_within_5_years": 296,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "additive",
+    "age": 85.0,
+    "sleep_quality": "medium",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 7.7955476684878775,
+    "training_support_within_5_years": 253,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "additive",
+    "age": 85.0,
+    "sleep_quality": "low",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 7.585933326071926,
+    "training_support_within_5_years": 65,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "interaction",
+    "age": 55.0,
+    "sleep_quality": "high",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 10.982343699620534,
+    "training_support_within_5_years": 447,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "interaction",
+    "age": 55.0,
+    "sleep_quality": "medium",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 10.672471804606609,
+    "training_support_within_5_years": 412,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "interaction",
+    "age": 55.0,
+    "sleep_quality": "low",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 10.317646828367138,
+    "training_support_within_5_years": 132,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "interaction",
+    "age": 65.0,
+    "sleep_quality": "high",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 9.928077755603725,
+    "training_support_within_5_years": 540,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "interaction",
+    "age": 65.0,
+    "sleep_quality": "medium",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 9.73907805989535,
+    "training_support_within_5_years": 480,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "interaction",
+    "age": 65.0,
+    "sleep_quality": "low",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 9.527828306892294,
+    "training_support_within_5_years": 152,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "interaction",
+    "age": 75.0,
+    "sleep_quality": "high",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 8.873811811586917,
+    "training_support_within_5_years": 617,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "interaction",
+    "age": 75.0,
+    "sleep_quality": "medium",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 8.805684315184092,
+    "training_support_within_5_years": 502,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "interaction",
+    "age": 75.0,
+    "sleep_quality": "low",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 8.738009785417452,
+    "training_support_within_5_years": 121,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "interaction",
+    "age": 85.0,
+    "sleep_quality": "high",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 7.819545867570108,
+    "training_support_within_5_years": 296,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "interaction",
+    "age": 85.0,
+    "sleep_quality": "medium",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 7.872290570472833,
+    "training_support_within_5_years": 253,
+    "supported_at_least_20": true
+  },
+  {
+    "model": "interaction",
+    "age": 85.0,
+    "sleep_quality": "low",
+    "raeduc": 3,
+    "wave": 12,
+    "prediction": 7.948191263942608,
+    "training_support_within_5_years": 65,
+    "supported_at_least_20": true
+  }
+]
