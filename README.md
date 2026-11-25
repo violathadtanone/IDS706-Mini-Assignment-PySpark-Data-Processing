@@ -68,7 +68,7 @@ python -m pip install -r requirements.txt
 ## Pipeline Overview
 #### Stage 1 — Data Processing Pipeline
 - Data ingestion: Convert the 1.85GB Stata dataset into Parquet using chunked processing and 134 selected columns.
-- Transformations: Apply filter() and withColumn() to clean data, categorize sleep quality (high, medium, low), and process age and education variables.
+- Transformations: Apply `filter()` and `withColumn()` to clean data and categorize sleep quality using a researcher-defined disturbance score (0–8): high (0–2), medium (3–5), and low (6–8).
 - Analysis: Use groupBy().agg() and two Spark SQL queries to compare cognitive scores across sleep-quality levels, age groups, and education.
 - Optimization and output: Apply early filtering, column selection, and AQE; save 142,624 eligible observations to Parquet.
 
@@ -88,7 +88,7 @@ python -m pip install -r requirements.txt
 | `groupBy().agg()` — Define aggregations | |
 | **0 Spark jobs triggered** | **Spark jobs triggered** |
 
-- Example from the pipeline:
+- Illustrative example:
 ```python
 # Lazy transformations: no Spark jobs executed
 filtered = df.filter(df.age >= 50)
@@ -108,29 +108,29 @@ summary.show()
 - Run the stages below sequentially **from the project root**. Use Java 17 and the project virtual environment. Stage 2 screenshot capture requires installed macOS Google Chrome at `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`.
 - These output directories already exist locally. Add `--overwrite` to each command only when intentionally regenerating that revised stage; the commands below are for a first run.
 ```bash
-.venv/bin/python -B pyspark_pipeline.py --stage 1 --output-dir output/research_v2/stage1
-.venv/bin/python -B pyspark_pipeline.py --stage 2 --stage1-dir output/research_v2/stage1 --output-dir output/research_v2/stage2
-.venv/bin/python -B pyspark_pipeline.py --stage 3 --stage1-dir output/research_v2/stage1 --output-dir output/research_v2/stage3
-.venv/bin/python -B pyspark_pipeline.py --stage 4 --stage1-dir output/research_v2/stage1 --output-dir output/research_v2/stage4
+.venv/bin/python -B pyspark_pipeline.py --stage 1 --output-dir output/stage1
+.venv/bin/python -B pyspark_pipeline.py --stage 2 --stage1-dir output/stage1 --output-dir output/stage2
+.venv/bin/python -B pyspark_pipeline.py --stage 3 --stage1-dir output/stage1 --output-dir output/stage3
+.venv/bin/python -B pyspark_pipeline.py --stage 4 --stage1-dir output/stage1 --output-dir output/stage4
 ```
 <br><br>
 
 ## Performance Analysis Results
 
 **Q1: How did Spark optimize the queries? Where were filters pushed down?**
-Spark optimized query execution through predicate pushdown, column pruning, and Adaptive Query Execution (AQE). The physical execution plans generated using .explain() show that the grouped-summary query reads only 10 of 19 columns, while the comparison query reads eight per branch. Filters for education, interview status, valid cognitive recall, and sleep quality were pushed toward the Parquet scan, reducing unnecessary data processing. The self-join also pushed sleep-quality restrictions into the relevant branches. These optimizations reduced the amount of data processed before aggregation, although actual Parquet row-group skipping was not independently verified.
+- Spark optimized query execution through predicate pushdown, column pruning, and Adaptive Query Execution (AQE). The physical execution plans generated using .explain() show that the grouped-summary query reads only 10 of 19 columns, while the comparison query reads eight per branch. Filters for proxy status, education, valid cognitive recall, imputation flags, and sleep-quality availability were pushed toward the Parquet scan, reducing unnecessary data processing. The self-join also pushed sleep-quality restrictions into the relevant branches. These optimizations reduced the amount of data processed before aggregation, although actual Parquet row-group skipping was not independently verified.
 
 ![Query Execution Plan](images/research_v2_01_query_plan.png)
 
 **Q2: What performance bottlenecks were identified? How was the pipeline optimized?**
-Spark UI Query Details revealed that aggregations required Exchange shuffle operations, while the comparison query used a BroadcastHashJoin to efficiently join aggregated results. AQE further optimized execution by coalescing shuffle partitions. The largest shuffle write was approximately 3.65 MB, with no memory or disk spill, suggesting that shuffling was the main observable processing overhead rather than a significant memory bottleneck. The pipeline minimized unnecessary processing through early filtering, column pruning, and fewer shuffle partitions. In local benchmarks, two shuffle partitions performed better than four, with median times of 1.112 vs. 1.633 seconds for grouped summaries and 0.584 vs. 0.776 seconds for comparisons.
+- Spark UI Query Details revealed that aggregations required Exchange shuffle operations, while the comparison query used a BroadcastHashJoin to efficiently join aggregated results. AQE further optimized execution by coalescing shuffle partitions. The largest shuffle write was approximately 3.65 MB, with no memory or disk spill. Although shuffle operations introduced data movement, the available metrics did not identify a dominant performance bottleneck. The pipeline minimized unnecessary processing through early filtering, column pruning, and fewer shuffle partitions. In local benchmarks, two shuffle partitions performed better than four, with median times of 1.112 vs. 1.633 seconds for grouped summaries and 0.584 vs. 0.776 seconds for comparisons.
 
 ![Successful Pipeline Execution](images/research_v2_02_successful_execution.png)
 
 ![Query Details and Optimization](images/research_v2_03_query_details.png)
 
 **Q3: Did caching improve performance for repeated actions?**
-Using .cache(), median execution time decreased from 1.633 to 1.034 seconds for grouped summaries and from 0.776 to 0.481 seconds for comparison queries. Although populating the cache required 2.285 seconds, total execution time across five repetitions of both workloads decreased from 11.296 seconds (uncached) to 9.918 seconds (cached, including population), an improvement of approximately 12%. This demonstrates that caching can improve repeated query performance when its initialization cost is outweighed by subsequent savings. Results reflect local execution and exclude the initial Stata-to-Parquet conversion.
+- Using .cache(), median execution time decreased from 1.633 to 1.034 seconds for grouped summaries and from 0.776 to 0.481 seconds for comparison queries. Although populating the cache required 2.285 seconds, total execution time across five repetitions of both workloads decreased from 11.296 seconds (uncached) to 9.918 seconds (cached, including population), an improvement of approximately 12%. This demonstrates that caching can improve repeated query performance when its initialization cost is outweighed by subsequent savings. Results reflect local execution and exclude the initial Stata-to-Parquet conversion.
 <br><br>
 
 ## Key Findings from Data Analysis

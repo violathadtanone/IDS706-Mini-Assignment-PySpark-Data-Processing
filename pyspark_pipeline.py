@@ -1,6 +1,6 @@
 """IDS706: sleep quality, cognition, age, and education in RAND HRS.
 
-Run stages 1–4 independently with --stage; revised results use output/research_v2/.
+Run stages 1–4 independently with --stage; revised results use output/.
 Sleep categories are researcher-defined. Associations are noncausal.
 """
 import argparse
@@ -590,7 +590,7 @@ def main():
     parser.add_argument("--stage",type=int,choices=(1,2,3,4),required=True)
     parser.add_argument("--input",default="randhrs1992_2022v2.dta")
     parser.add_argument("--output-dir",default=None)
-    parser.add_argument("--stage1-dir",default="output/research_v2/stage1")
+    parser.add_argument("--stage1-dir",default="output/stage1")
     parser.add_argument("--chunk-size",type=int,default=5000)
     parser.add_argument("--master",default="local[2]")
     parser.add_argument("--shuffle-partitions",type=int,default=4)
@@ -599,9 +599,9 @@ def main():
     args=parser.parse_args()
     if min(args.chunk_size,args.shuffle_partitions,args.repeats)<1:parser.error("Counts must be positive.")
     if not (args.master=="local" or (args.master.startswith("local[") and args.master.endswith("]"))):parser.error("Use local Spark.")
-    root=Path(args.output_dir or f"output/research_v2/stage{args.stage}").resolve()
-    revision_root=Path("output/research_v2").resolve()
-    if root.parent!=revision_root or root.name!=f"stage{args.stage}":parser.error("Use output/research_v2/stageN; old outputs are protected.")
+    root=Path(args.output_dir or f"output/stage{args.stage}").resolve()
+    revision_root=Path("output").resolve()
+    if root.parent!=revision_root or root.name!=f"stage{args.stage}":parser.error("Use output/stageN; old outputs are protected.")
     if root.exists():
         if not args.overwrite:parser.error(f"Output exists: {root}; use --overwrite intentionally.")
         marker=root/"run_manifest.json"
