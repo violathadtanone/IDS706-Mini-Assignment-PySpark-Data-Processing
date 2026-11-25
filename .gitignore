@@ -1,7 +1,6 @@
 randhrs1992_2022v2.dta
 randhrs.parquet
 output/
-images/
 .DS_Store
 
 # Byte-compiled / optimized / DLL files
