@@ -60,7 +60,7 @@ python -m pip install -r requirements.txt
 <br><br>
 
 ## Dataset Description and Source
-- [RAND HRS Longitudinal File 2022 (Version 2)](https://hrsdata.isr.umich.edu/data-products/rand-hrs-longitudinal-file-2022), based on the University of Michigan's Health and Retirement Study, follows older Americans' health, cognition, finances, and other characteristics. 
+- For this analysis, the dataset is from [RAND HRS Longitudinal File 2022 (Version 2)](https://hrsdata.isr.umich.edu/data-products/rand-hrs-longitudinal-file-2022). This is based on the University of Michigan's Health and Retirement Study, which follows older Americans' health, cognition, finances, and other characteristics. 
 - The raw dataset is **1.85 GB** in size. It includes 45,165 respondents across 16 survey waves (1992–2022), allowing researchers to examine changes in health and well-being over time.
 - The analysis uses cognitive recall scores, four sleep-quality indicators, age, education level, and survey wave to examine the relationship between sleep quality and cognitive performance.
 <br><br>
