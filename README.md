@@ -134,7 +134,6 @@ summary.show()
 <br><br>
 
 ## Key Findings from Data Analysis
-
 ### 1. Sleep Quality and Cognitive Performance
 
 Respondents with **high sleep quality had the highest average cognitive recall scores**. The analysis included 142,624 observations across three sleep-quality categories.
