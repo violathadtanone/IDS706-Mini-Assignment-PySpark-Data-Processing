@@ -66,7 +66,7 @@ python -m pip install -r requirements.txt
 <br><br>
 
 ## Pipeline Overview
-![Pipeline](images/pipeline.png)
+![Pipeline](images/Pipeline.png)
 #### Stage 1 — Data Processing Pipeline
 - Data ingestion: Convert the 1.85GB Stata dataset into Parquet using chunked processing and 134 selected columns.
 - Transformations: Apply `filter()` and `withColumn()` to clean data and categorize sleep quality using a researcher-defined disturbance score (0–8): high (0–2), medium (3–5), and low (6–8).
